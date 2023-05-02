@@ -26,7 +26,10 @@
             // cropType3 price variable
     // Field Variables
         // Field Container Variables
+        var fieldContainerCount = 1;
         // Field Table Variables
+        var numRows = 1;
+        var numCols = 1;
         // Field Pricing Varialbes
             // Field creation cost variable
             // Field expansion cost variable
@@ -91,9 +94,81 @@
                 // 10x = Between 40 and 60 primary coins  
     // Field Functions
         // Field Creation
+        function createField() {
+            // Create the new field container
+            var newFieldContainer = document.createElement("div");
+            newFieldContainer.id = "FieldContainer" + fieldContainerCount;
+            newFieldContainer.innerHTML = "<span>Field #: " + fieldContainerCount + "</span>";
+            newFieldContainer.rows = 1;
+            newFieldContainer.cols = 1;
+
+            // Create the Expand Field Button
+            var expandFieldButton = document.createElement("button");
+            expandFieldButton.id = "expandFieldButton" + fieldContainerCount;
+            expandFieldButton.innerHTML = "Expand Field";
+            expandFieldButton.onclick = function() { expandField(newFieldContainer.id); };
+            newFieldContainer.appendChild(expandFieldButton);
+
+            // Create field table
+            var fieldTable = "";
+            for (var i = 0; i < 1; i++) {
+            fieldTable += "<tr id='fieldTableRow" + i + newFieldContainer.id + "'>";
+            for (var j = 0; j < 1; j++) {
+                var ftbuttonId = "fieldButton" + i + j + newFieldContainer.id;
+                fieldTable += "<td id='fieldTableCell" + i + j + newFieldContainer.id + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")' data-ftState='[\"state1\", \"state2\", \"state3\"]'>state1</button></td>";
+            }
+            fieldTable += "</tr>";
+            }
+            var fieldTableElement = document.createElement("table");
+            fieldTableElement.id = "fieldTable" + fieldContainerCount;
+            fieldTableElement.innerHTML = fieldTable;
+            newFieldContainer.appendChild(fieldTableElement);
+
+            // Add the new field to the page
+            document.getElementById("fieldDisplay").appendChild(newFieldContainer);
+
+            // Update the Field Container Counter  
+            fieldContainerCount++;
+        }
+
         // Field Expansion
+        function expandField(fieldContainerId) {
+            // Get the field container element
+            var fieldContainer = document.getElementById(fieldContainerId);
+
+            // Generate the new Field Size
+            fieldContainer.rows++;
+            fieldContainer.cols++;
+
+            // Update the field table
+            var fieldTable = "";
+            for (var i = 0; i < fieldContainer.rows; i++) {
+            fieldTable += "<tr id='fieldTableRow" + i + fieldContainerId + "'>";
+            for (var j = 0; j < fieldContainer.cols; j++) {
+                var ftbuttonId = "fieldButton" + i + j + fieldContainerId;
+                fieldTable += "<td id='fieldTableCell" + i + j + fieldContainerId + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")' data-ftState='[\"state1\", \"state2\", \"state3\"]'>state1</button></td>";
+            }
+            fieldTable += "</tr>";
+            }
+            document.getElementById("fieldTable" + fieldContainerId.substring(14)).innerHTML = fieldTable;
+        }
+
     // Field Tile Functions
         // Click Response function
+        function fieldTileClickResponder(ftbuttonId) {
+            
+            const ftButton = document.getElementById(ftbuttonId);
+            const ftState = ftButton.dataset.ftState.split(",");
+            let currentStateIndex = 0;
+            
+            ftButton.addEventListener("click", function() {
+                currentStateIndex - (currentStateIndex + 1) % state.length;
+                ftButton.textContent = ftState[currentStateIndex];
+            });
+    
+            console.log("You clicked this field tile: ", ftbuttonId);
+            console.log("This Field Tile is in state: " , ftState)
+        }
             // Check field tile state
             // Check current selected tool
 
