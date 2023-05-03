@@ -115,7 +115,7 @@
             fieldTable += "<tr id='fieldTableRow" + i + newFieldContainer.id + "'>";
             for (var j = 0; j < 1; j++) {
                 var ftbuttonId = "fieldButton" + i + j + newFieldContainer.id;
-                fieldTable += "<td id='fieldTableCell" + i + j + newFieldContainer.id + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")' data-ftState='[\"state1\", \"state2\", \"state3\"]'>state1</button></td>";
+                fieldTable += "<td id='fieldTableCell" + i + j + newFieldContainer.id + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>state1</button></td>";
             }
             fieldTable += "</tr>";
             }
@@ -146,7 +146,7 @@
             fieldTable += "<tr id='fieldTableRow" + i + fieldContainerId + "'>";
             for (var j = 0; j < fieldContainer.cols; j++) {
                 var ftbuttonId = "fieldButton" + i + j + fieldContainerId;
-                fieldTable += "<td id='fieldTableCell" + i + j + fieldContainerId + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")' data-ftState='[\"state1\", \"state2\", \"state3\"]'>state1</button></td>";
+                fieldTable += "<td id='fieldTableCell" + i + j + fieldContainerId + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>state1</button></td>";
             }
             fieldTable += "</tr>";
             }
@@ -155,20 +155,41 @@
 
     // Field Tile Functions
         // Click Response function
+        let currentState = 0;
         function fieldTileClickResponder(ftbuttonId) {
+            const ftButton = document.querySelector('#' + ftbuttonId);
+            const states = ['State 1', 'State 2', 'State 3'];
+
             
-            const ftButton = document.getElementById(ftbuttonId);
-            const ftState = ftButton.dataset.ftState.split(",");
-            let currentStateIndex = 0;
-            
-            ftButton.addEventListener("click", function() {
-                currentStateIndex - (currentStateIndex + 1) % state.length;
-                ftButton.textContent = ftState[currentStateIndex];
-            });
-    
+            ftButton.textContent = states[currentState];
+            currentState = (currentState + 1) % states.length;
             console.log("You clicked this field tile: ", ftbuttonId);
-            console.log("This Field Tile is in state: " , ftState)
+            console.log("This Tile's current state is: ", currentState)
         }
             // Check field tile state
             // Check current selected tool
 
+// ---- Testing Area ----
+/*
+const plantButton = document.querySelector('#plantButton');
+const stages = parseInt(plantButton.dataset.stages);
+let currentStage = parseInt(plantButton.dataset.currentStage);
+
+plantButton.addEventListener('click', () => {
+  currentStage = (currentStage + 1) % stages;
+  plantButton.dataset.currentStage = currentStage;
+  
+  switch(currentStage) {
+    case 0:
+      plantButton.textContent = 'Plant Seeds';
+      break;
+    case 1:
+      plantButton.textContent = 'Water Seeds';
+      break;
+    case 2:
+      plantButton.textContent = 'Harvest Crops';
+      break;
+  }
+  console.log(plantButton);
+});
+*/
