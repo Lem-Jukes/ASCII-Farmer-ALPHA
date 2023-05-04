@@ -4,6 +4,7 @@
             //  Primary Coin Variable
         // Tool Variables
             // Current Tool Variable
+            currentTool = "None"
         // Seed Variables
             // Current Selected Seed Type Variable
             // Seed Stock Variables
@@ -115,7 +116,7 @@
             fieldTable += "<tr id='fieldTableRow" + i + newFieldContainer.id + "'>";
             for (var j = 0; j < 1; j++) {
                 var ftbuttonId = "fieldButton" + i + j + newFieldContainer.id;
-                fieldTable += "<td id='fieldTableCell" + i + j + newFieldContainer.id + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>state1</button></td>";
+                fieldTable += "<td id='fieldTableCell" + i + j + newFieldContainer.id + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>State 0</button></td>";
             }
             fieldTable += "</tr>";
             }
@@ -146,7 +147,7 @@
             fieldTable += "<tr id='fieldTableRow" + i + fieldContainerId + "'>";
             for (var j = 0; j < fieldContainer.cols; j++) {
                 var ftbuttonId = "fieldButton" + i + j + fieldContainerId;
-                fieldTable += "<td id='fieldTableCell" + i + j + fieldContainerId + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>state1</button></td>";
+                fieldTable += "<td id='fieldTableCell" + i + j + fieldContainerId + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>State 0</button></td>";
             }
             fieldTable += "</tr>";
             }
