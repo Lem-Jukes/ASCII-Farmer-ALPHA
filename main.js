@@ -160,7 +160,6 @@
             const ftButton = document.querySelector('#' + ftbuttonId);
             const states = ['State 1', 'State 2', 'State 3'];
 
-            
             ftButton.textContent = states[currentState];
             currentState = (currentState + 1) % states.length;
             console.log("You clicked this field tile: ", ftbuttonId);
@@ -170,26 +169,5 @@
             // Check current selected tool
 
 // ---- Testing Area ----
-/*
-const plantButton = document.querySelector('#plantButton');
-const stages = parseInt(plantButton.dataset.stages);
-let currentStage = parseInt(plantButton.dataset.currentStage);
 
-plantButton.addEventListener('click', () => {
-  currentStage = (currentStage + 1) % stages;
-  plantButton.dataset.currentStage = currentStage;
-  
-  switch(currentStage) {
-    case 0:
-      plantButton.textContent = 'Plant Seeds';
-      break;
-    case 1:
-      plantButton.textContent = 'Water Seeds';
-      break;
-    case 2:
-      plantButton.textContent = 'Harvest Crops';
-      break;
-  }
-  console.log(plantButton);
-});
-*/
+
