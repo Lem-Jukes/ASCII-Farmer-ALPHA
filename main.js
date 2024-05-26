@@ -1,174 +1,444 @@
-// Variables 
-    // Inventory Variables
-        // Currency Variables
-            //  Primary Coin Variable
-        // Tool Variables
-            // Current Tool Variable
-            currentTool = "None"
-        // Seed Variables
-            // Current Selected Seed Type Variable
-            // Seed Stock Variables
-                // seedType1 count variable
-                // seedType2 count variable
-                // seedType3 count variable
-        // Crop Variables
-            // Crop Stock Variables
-                // cropType1 count variable
-                // cropType2 count variable
-                // cropType3 count variable
-    // Store Variables
-        // Seed Store Variables
-            // seedType1 Price Variable
-            // seedType2 price variable
-            // seedType3 price variable
-        // Crop Store Variables
-            // cropType1 price variable
-            // cropType2 price variable
-            // cropType3 price variable
-    // Field Variables
-        // Field Container Variables
-        var fieldContainerCount = 1;
-        // Field Table Variables
-        var numRows = 1;
-        var numCols = 1;
-        // Field Pricing Varialbes
-            // Field creation cost variable
-            // Field expansion cost variable
+// Player Currency Values
+let coins = 1500;
+let seeds = 1;
+let water = 10;
+let crops = 0;
 
-// Functions
-    // General Functions
-        // Display Functions
-            // Inventory & Store Display Update Functions
-                // Currency Display Updaters
-                    // Primary Coin Display Update
-                // Tool Display Updaters
-                    // Current Tool Selection Display Update
-                // Seed Display Updaters
-                    // Current Seed Type Selection Display Update
-                    // Seed Stock Display Updaters
-                        // currentSeedType count updater
-                        // seedType1 count updater
-                        // seedType2 count updater
-                        // seedType3 count updater
-                // Crop Display Updaters
-                    // cropType1 count updater
-                    // cropType2 count updater
-                    // cropType3 count updater
-            // Field Display Update Functions
-    // Inventory Functions
-        // Currency Functions
-            // Check Item Cost
-            // Check New Field Cost
-            // Update New Field Cost
-            // Check Field Expansion Cost
-            // Update Field Expansion Cost
-        // Tool Functions
-            // Change Tool
-                // Disable the selected tool button
-                // Enable all other tool buttons
-        // Seed Functions
-            // Change seed type
-                // Disable the selected seed type button
-                // Enable all other buttons
-        // Crop Functions
-            // Actually we dont have any crop functions yet but it felt wrong to leave them out
-    // Store Functions
-        // Seed Store Functions
-            // Buy seedType1
-                // 1x = 1 primary coin
-                // 5x = 4.5 primary coins
-            // Buy seedType2
-                // 1x = 2 primary coin
-                // 5x = 9 primary coins
-            // Buy seedType3
-                // 1x = 3 primary coin
-                // 5x = 13.5 primary coins
-        // Crop Store Functions
-            // Sell cropType1 
-                // 1x = between 2 and 4 primary coins
-                // 10x = Between 20 and 40 primary coins    
-            // Sell cropType2
-                // 1x = between 3 and 5 primary coins
-                // 10x = Between 30 and 50 primary coins  
-            // Sell cropType3
-                // 1x = between 4 and 6 primary coins
-                // 10x = Between 40 and 60 primary coins  
-    // Field Functions
-        // Field Creation
-        function createField() {
-            // Create the new field container
-            var newFieldContainer = document.createElement("div");
-            newFieldContainer.id = "FieldContainer" + fieldContainerCount;
-            newFieldContainer.innerHTML = "<span>Field #: " + fieldContainerCount + "</span>";
-            newFieldContainer.rows = 1;
-            newFieldContainer.cols = 1;
+// Field Information
+let plots = 0;
 
-            // Create the Expand Field Button
-            var expandFieldButton = document.createElement("button");
-            expandFieldButton.id = "expandFieldButton" + fieldContainerCount;
-            expandFieldButton.innerHTML = "Expand Field";
-            expandFieldButton.onclick = function() { expandField(newFieldContainer.id); };
-            newFieldContainer.appendChild(expandFieldButton);
+// Store Information
+let plotCost = 10; // Initial cost for a plot
 
-            // Create field table
-            var fieldTable = "";
-            for (var i = 0; i < 1; i++) {
-            fieldTable += "<tr id='fieldTableRow" + i + newFieldContainer.id + "'>";
-            for (var j = 0; j < 1; j++) {
-                var ftbuttonId = "fieldButton" + i + j + newFieldContainer.id;
-                fieldTable += "<td id='fieldTableCell" + i + j + newFieldContainer.id + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>State 0</button></td>";
-            }
-            fieldTable += "</tr>";
-            }
-            var fieldTableElement = document.createElement("table");
-            fieldTableElement.id = "fieldTable" + fieldContainerCount;
-            fieldTableElement.innerHTML = fieldTable;
-            newFieldContainer.appendChild(fieldTableElement);
+let waterRefills = 0;
+let waterUpgradeCost = 50;
+let maxWaterCapacity = 10; // Initial max water capacity
 
-            // Add the new field to the page
-            document.getElementById("fieldDisplay").appendChild(newFieldContainer);
+// Upgrade information
+let expandedClickPurchased = false;
+let expandedClickEnabled = false;
 
-            // Update the Field Container Counter  
-            fieldContainerCount++;
+
+// Store Functions & Initialization
+document.addEventListener("DOMContentLoaded", function() {
+    initializeStore();
+});
+
+function initializeStore() {
+    // Items for sale
+    addStoreItem("items-for-sale", "Water", "10x", "1c", buyWater);
+    addStoreItem("items-for-sale", "Seed", "1x", "1c", buySeed);
+
+    // Items for purchase
+    addStoreItem("items-for-purchase", "", "1x", "2c", () => sellCrop(1));
+    addStoreItem("items-for-purchase", "", "3x", "7c", () => sellCrop(3));
+    addStoreItem("items-for-purchase", "", "5x", "15c", () => sellCrop(5));
+
+    // Field expansion
+    updateBuyPlotButton();
+}
+
+function addStoreItem(sectionId, label, buttonText, price, onClickFunction) {
+    const section = document.getElementById(sectionId);
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'store-item';
+
+    if (label) {
+        const labelDiv = document.createElement('div');
+        labelDiv.textContent = label + ":";
+        labelDiv.className = 'store-item-label';
+        itemDiv.appendChild(labelDiv);
+    }
+
+    const button = document.createElement('button');
+    button.textContent = buttonText;
+    button.className = 'store-button';
+    button.onclick = onClickFunction;
+
+    const priceDiv = document.createElement('div');
+    priceDiv.textContent = price;
+    priceDiv.className = 'store-item-price';
+
+    itemDiv.appendChild(button);
+    itemDiv.appendChild(priceDiv);
+
+    section.appendChild(itemDiv);
+}
+
+function updateBuyPlotButton() {
+    const button = document.getElementById('buy-plot-button');
+    button.textContent = `Buy Plot: ${Math.round(plotCost)}c`;
+}
+
+// Functions for buying items
+function buyWater() {
+    if (water >= maxWaterCapacity) {
+        alert("Your water inventory is full!");
+        return;
+    }
+    
+    if (coins >= 1) {
+        coins -= 1;
+        water += 10;
+        water = Math.min(water, maxWaterCapacity); // Cap water at max capacity
+        waterRefills += 1;
+        updateCurrency();
+
+        if (waterRefills === 3) {
+            addWaterUpgradeSection();
         }
+    } else {
+        alert("Not enough coins!");
+    }
+}
 
-        // Field Expansion
-        function expandField(fieldContainerId) {
-            // Get the field container element
-            var fieldContainer = document.getElementById(fieldContainerId);
+function buySeed() {
+    if (coins >= 1) {
+        coins -= 1;
+        seeds += 1;
+        updateCurrency();
+    } else {
+        alert("Not enough coins!");
+    }
+}
 
-            // Generate the new Field Size
-            fieldContainer.rows++;
-            fieldContainer.cols++;
-
-            // Update the field table
-            var fieldTable = "";
-            for (var i = 0; i < fieldContainer.rows; i++) {
-            fieldTable += "<tr id='fieldTableRow" + i + fieldContainerId + "'>";
-            for (var j = 0; j < fieldContainer.cols; j++) {
-                var ftbuttonId = "fieldButton" + i + j + fieldContainerId;
-                fieldTable += "<td id='fieldTableCell" + i + j + fieldContainerId + "'><button id='" + ftbuttonId + "' onclick='fieldTileClickResponder(\"" + ftbuttonId + "\")'>State 0</button></td>";
-            }
-            fieldTable += "</tr>";
-            }
-            document.getElementById("fieldTable" + fieldContainerId.substring(14)).innerHTML = fieldTable;
+function buyPlot() {
+    if (coins >= plotCost && plots < 100) { // Cap the number of plots at 100
+        coins -= plotCost;
+        plots += 1;
+        if (plots > 10) { // Increase the cost by 1.1x only after the 10th plot
+            plotCost *= 1.1;
         }
+        updateField();
+        updateCurrency();
+        updateBuyPlotButton();
 
-    // Field Tile Functions
-        // Click Response function
-        let currentState = 0;
-        function fieldTileClickResponder(ftbuttonId) {
-            const ftButton = document.querySelector('#' + ftbuttonId);
-            const states = ['State 1', 'State 2', 'State 3'];
-
-            ftButton.textContent = states[currentState];
-            currentState = (currentState + 1) % states.length;
-            console.log("You clicked this field tile: ", ftbuttonId);
-            console.log("This Tile's current state is: ", currentState)
+        if (plots === 3) {
+            addExpandedClickUpgradeSection();
         }
-            // Check field tile state
-            // Check current selected tool
+    } else {
+        alert("Not enough coins or field is full!");
+    }
+}
 
-// ---- Testing Area ----
+// Functions that handle adding sections to the game window
+function addUpgradesSection() {
+    const container = document.createElement('div');
+    container.className = 'upgrades-container';
+
+    const title = document.createElement('h2');
+    title.className = 'upgrades-title';
+    title.textContent = 'Upgrades';
+    container.appendChild(title);
+
+    const upgradeItem = document.createElement('div');
+    upgradeItem.className = 'upgrade-item';
+
+    const label = document.createElement('label');
+    label.className = 'upgrade-label';
+    label.textContent = 'Expanded Click Mk.1';
+    upgradeItem.appendChild(label);
+
+    const toggle = document.createElement('input');
+    toggle.type = 'checkbox';
+    toggle.className = 'upgrade-toggle';
+    toggle.checked = expandedClickEnabled;
+    toggle.onchange = () => {
+        expandedClickEnabled = toggle.checked;
+        if (expandedClickEnabled) {
+            alert("The Expanded Click Mk.1 is NOT a smart tool and will not track inventory stock levels. Users are encouraged to maintain stock levels manually.");
+        }
+    };
+    upgradeItem.appendChild(toggle);
+
+    container.appendChild(upgradeItem);
+
+    const fieldContainer = document.querySelector('.field-container');
+    fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
+}
+
+// Functions that add Store Upgrade Buttons
+function addWaterUpgradeSection() {
+    const store = document.getElementById('store');
+    const upgradeSection = document.createElement('div');
+    upgradeSection.className = 'store-section';
+    upgradeSection.id = 'upgrades-section';
+
+    const upgradeTitle = document.createElement('h5');
+    upgradeTitle.textContent = 'Upgrades';
+    upgradeSection.appendChild(upgradeTitle);
+
+    const upgradeButton = document.createElement('button');
+    upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
+    upgradeButton.className = 'store-button';
+    upgradeButton.onclick = buyWaterUpgrade;
+    upgradeSection.appendChild(upgradeButton);
+
+    store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
+}
+
+function addExpandedClickUpgradeSection() {
+    const store = document.getElementById('store');
+    const upgradeSection = document.createElement('div');
+    upgradeSection.className = 'store-section';
+    upgradeSection.id = 'expanded-click-section';
+
+    const upgradeTitle = document.createElement('h5');
+    upgradeTitle.textContent = 'Upgrades';
+    upgradeSection.appendChild(upgradeTitle);
+
+    const upgradeButton = document.createElement('button');
+    upgradeButton.textContent = `Expanded Click Mk.1: 100c`;
+    upgradeButton.className = 'store-button';
+    upgradeButton.onclick = buyExpandedClickUpgrade;
+    upgradeSection.appendChild(upgradeButton);
+
+    store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
+}
+
+// Functions for Buying Upgrades
+function buyWaterUpgrade() {
+    if (coins >= waterUpgradeCost) {
+        coins -= waterUpgradeCost;
+        maxWaterCapacity += 10;
+        waterUpgradeCost += 5;
+        updateCurrency();
+        updateUpgradeButton();
+    } else {
+        alert("Not enough coins!");
+    }
+}
+
+function updateUpgradeButton() {
+    const upgradeButton = document.querySelector('#upgrades-section .store-button');
+    if (upgradeButton) {
+        upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
+    }
+}
+
+function buyExpandedClickUpgrade() {
+    if (coins >= 100) {
+        coins -= 100;
+        expandedClickPurchased = true;
+        updateCurrency();
+        document.getElementById('expanded-click-section').remove(); // Remove the upgrade button after purchase
+        addUpgradesSection(); // Add the new section with the toggle switch
+    } else {
+        alert("Not enough coins!");
+    }
+}
 
 
+// Function for selling crops
+function sellCrop(quantity) {
+    let price;
+    switch (quantity) {
+        case 1:
+            price = 2;
+            break;
+        case 3:
+            price = 7;
+            break;
+        case 5:
+            price = 15;
+            break;
+        default:
+            return;
+    }
+
+    if (crops >= quantity) {
+        coins += price;
+        crops -= quantity;
+        updateCurrency();
+    } else {
+        alert("Not enough crops!");
+    }
+}
+
+// Function to update currency display
+function updateCurrency() {
+    document.getElementById('coins').innerText = Math.floor(coins);
+    document.getElementById('seeds').innerText = Math.floor(seeds);
+    document.getElementById('water').innerText = Math.floor(water);
+    document.getElementById('crops').innerText = Math.floor(crops);
+}
+
+// Function to update field display
+function updateField() {
+    const fieldElement = document.getElementById('field');
+    fieldElement.innerHTML = '';
+    for (let i = 0; i < plots; i++) {
+        const plot = document.createElement('button');
+        plot.textContent = '~'; // Untilled
+        plot.className = 'plotButton';
+        plot.addEventListener('click', () => handlePlotClick(plot));
+        fieldElement.appendChild(plot);
+    }
+}
+
+// Function to handle plot click
+function handlePlotClick(plot) {
+    const plotState = plot.textContent;
+    const plotIndex = Array.from(document.getElementById('field').children).indexOf(plot);
+
+    switch (plotState) {
+        case '~': // Untilled
+            // Tilling requires no cost
+            plot.textContent = '=';
+            break;
+        case '=': // Tilled
+            if (seeds >= 1) {
+                plot.textContent = '.';
+                seeds -= 1;
+            } else {
+                alert("Not enough seeds!");
+            }
+            break;
+        case '.': // Planted
+            if (water >= 1) {
+                plot.textContent = '/';
+                water -= 1;
+            } else {
+                alert("Not enough water!");
+            }
+            break;
+        case '/': // Growing1
+            if (water >= 1) {
+                plot.textContent = '|';
+                water -= 1;
+            } else {
+                alert("Not enough water!");
+            }
+            break;
+        case '|': // Growing2
+            if (water >= 1) {
+                plot.textContent = '\\';
+                water -= 1;
+            } else {
+                alert("Not enough water!");
+            }
+            break;
+        case '\\': // Growing3
+            // Growing3 to Grown requires no cost
+            plot.textContent = '¥';
+            break;
+        case '¥': // Grown
+            // Harvesting requires a click
+            plot.textContent = '~'; // Reset plot to Untilled state
+            crops += 1;
+            plot.disabled = true; // Disable the button
+
+            // Calculate disabled time based on the number of plots
+            const numPlots = document.getElementById('field').childElementCount;
+            const disabledTime = 3000 * Math.pow(1.5, Math.floor(numPlots / 3));
+
+            setTimeout(() => {
+                plot.disabled = false; // Re-enable the button after the calculated time
+            }, disabledTime);
+            break;
+        default:
+            break;
+    }
+
+    // Apply expanded click effect if the upgrade has been purchased and enabled
+    if (expandedClickPurchased && expandedClickEnabled) {
+        affectAdjacentPlots(plotIndex);
+    }
+
+    updateCurrency();
+}
+
+function affectAdjacentPlots(index) {
+    const field = document.getElementById('field');
+    const plots = Array.from(field.children);
+
+    // Affect the left plot
+    if (index % 10 !== 0) { // Not on the left edge
+        const leftPlot = plots[index - 1];
+        handleAdjacentPlotClick(leftPlot);
+    }
+
+    // Affect the right plot
+    if (index % 10 !== 9) { // Not on the right edge
+        const rightPlot = plots[index + 1];
+        handleAdjacentPlotClick(rightPlot);
+    }
+}
+
+function handleAdjacentPlotClick(plot) {
+    const plotState = plot.textContent;
+
+    switch (plotState) {
+        case '~':
+            plot.textContent = '=';
+            break;
+        case '=':
+            if (seeds >= 1) {
+                plot.textContent = '.';
+                seeds -= 1;
+            }
+            break;
+        case '.':
+            if (water >= 1) {
+                plot.textContent = '/';
+                water -= 1;
+            }
+            break;
+        case '/':
+            if (water >= 1) {
+                plot.textContent = '|';
+                water -= 1;
+            }
+            break;
+        case '|':
+            if (water >= 1) {
+                plot.textContent = '\\';
+                water -= 1;
+            }
+            break;
+        case '\\':
+            plot.textContent = '¥';
+            break;
+        case '¥':
+            plot.textContent = '~';
+            crops += 1;
+            plot.disabled = true;
+            const numPlots = document.getElementById('field').childElementCount;
+            const disabledTime = 3000 * Math.pow(1.5, Math.floor(numPlots / 3));
+
+            setTimeout(() => {
+                plot.disabled = false;
+            }, disabledTime);
+            break;
+        default:
+            break;
+    }
+    updateCurrency();
+}
+
+// Initialize the game
+updateCurrency();
+updateField();
+
+// Get the modal
+const modal = document.getElementById("welcomeModal");
+
+// Get the <span> element that closes the modal
+const span = document.getElementById("closeModal");
+
+// When the page loads, open the modal
+window.onload = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

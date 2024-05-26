@@ -1,0 +1,198 @@
+/* Global Body Styles */
+body {
+    font-family: monospace;
+  }
+  
+  /* Title Styles */
+  .title {
+      text-align: left;
+      margin-top: 10px;
+      white-space: pre;
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.1;
+  }
+  
+  /* Currency Bar Styles */
+  .currency-bar {
+      font: inherit;
+      display: flex;
+      justify-content: space-around;
+      margin: 10px auto;
+      padding: 10px;
+      width: auto;
+      border: 2px dashed black;
+  }
+  
+  .currency-bar span {
+      font: inherit;
+      margin-right: 10px;
+  }
+  
+  .currency-item {
+      font: inherit;
+      display: flex;
+      align-items: center;
+  }
+  
+  .currency-item span {
+      display: inline-block;
+      margin-left: 5px;
+      padding: 5px;
+      border: 2px solid black;
+  }
+  
+  /* Field Styles */
+  .field-container {
+      text-align: center;
+      margin-top: 20px;
+  }
+  
+  .field-title {
+      font: inherit;
+      margin-bottom: 10px;
+      font-family: monospace;
+  }
+  
+  .field {
+      font: inherit;
+      border: 2px dashed black;
+      margin: 10px auto;
+      padding: 10px;
+      width: 320px; /* 10 plots * 30px plot size + 9 * 2px gap between plots */
+      height: 320px; /* 10 plots * 30px plot size + 9 * 2px gap between plots */
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      grid-gap: 2px;
+  }
+  
+  .plotButton {
+      font: inherit;
+      height: 30px;
+      width: 30px;
+      margin: 2px;
+      padding: 0;
+  }
+  
+  /* Store Styles */
+  .store-title {
+      font: inherit;
+      text-align: center;
+      margin-bottom: 10px;
+  }
+  
+  .store {
+      font: inherit;
+      border: 2px dashed black;
+      margin: 10px auto;
+      padding: 10px;
+      width: auto; 
+      text-align: center; /* Center buttons */
+  }
+  
+  .store-section {
+      font: inherit;
+      margin: 10px 0;
+      padding: 5px;
+      text-align: center;
+  }
+  
+  .store-section h5 {
+      font: inherit;
+      margin-bottom: 5px;
+      text-align: center;
+  }
+  
+  .store-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+  }
+  
+  .store-item-label, .store-item-price {
+      margin: 0 5px;
+  }
+  
+  .store-button {
+      font: inherit;
+      padding: 5px 10px; /* Added padding for more space */
+      margin: 2px;
+  }
+  
+  .store-button-large {
+      width: 100%; /* Full width for large button */
+      padding: 10px;
+      text-align: center;
+  }
+  
+  /* Upgrade Styles */
+  .upgrades-container {
+      font: inherit;
+      border: 2px dashed black;
+      margin: 10px auto;
+      padding: 10px;
+      width: auto;
+      text-align: center;
+  }
+  
+  .upgrades-title {
+      font: inherit;
+      text-align: center;
+      margin-bottom: 10px;
+  }
+  
+  .upgrade-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+  }
+  
+  .upgrade-label {
+      margin-right: 10px;
+  }
+  
+  .upgrade-toggle {
+      cursor: pointer;
+  }
+  
+  /* Modal Styles */
+  .modal {
+      font: inherit;
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+      font: inherit;
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
+  
