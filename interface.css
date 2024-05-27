@@ -23,7 +23,7 @@ body {
       margin: 10px auto;
       padding: 5px;
       border: 2px dashed black;
-      width: 320px; /* Locking width to match the field */
+      width: 342px; /* Locking width to match the field */
       box-sizing: border-box; /* Include padding in the width */
   }
   

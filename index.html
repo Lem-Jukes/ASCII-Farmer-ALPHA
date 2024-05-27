@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 user-scalable=no, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCII FARMER</title>
-    <link rel="stylesheet" href="interface.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="title">
@@ -33,7 +33,7 @@
             Seeds: <span id="seeds">1</span>
         </div>
         <div class="currency-item">
-            Water: <span id="water">10</span>
+            Water: <span id="water">10/10</span>
         </div>
         <div class="currency-item">
             Crops: <span id="crops">0</span>
@@ -63,6 +63,10 @@
         </div>
     </div>
   
+    <button onclick="resetGame()">Reset Game</button>
+  
+    <script src="script.js"></script>
+
   <!-- Modal -->
 <div id="welcomeModal" class="modal">
     <div class="modal-content">
@@ -96,5 +100,3 @@
   
   </body>
 </html>
-
-<script src="main.js"></script>

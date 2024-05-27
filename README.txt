@@ -9,8 +9,6 @@ Welcome to ASCII FARMER, a relaxing incremental farming game created by Juke LTD
 - [How to Play](#how-to-play)
 - [Game Features](#game-features)
 - [Installation](#installation)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## How to Play
 
@@ -63,31 +61,5 @@ To run the game locally:
     ```
 
 3. Open the `index.html` file in your web browser to start the game.
-
-## Contributing
-
-We welcome contributions from the community! To contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix:
-    ```bash
-    git checkout -b feature-name
-    ```
-3. Make your changes.
-4. Commit your changes:
-    ```bash
-    git commit -m "Description of your changes"
-    ```
-5. Push to your branch:
-    ```bash
-    git push origin feature-name
-    ```
-6. Create a pull request detailing your changes.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
----
 
 Enjoy your farming adventure with ASCII FARMER! Created with care by Juke LTD.

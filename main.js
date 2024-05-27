@@ -14,10 +14,52 @@ let waterRefills = 0;
 let waterUpgradeCost = 50;
 let maxWaterCapacity = 10; // Initial max water capacity
 
+//Save & Load State Functions
+function saveGame() {
+    const gameState = {
+        coins: coins,
+        seeds: seeds,
+        water: water,
+        crops: crops,
+        plots: plots,
+        plotCost: plotCost,
+        waterRefills: waterRefills,
+        waterUpgradeCost: waterUpgradeCost,
+        maxWaterCapacity: maxWaterCapacity,
+        expandedClickPurchased: expandedClickPurchased,
+        expandedClickEnabled: expandedClickEnabled
+    };
+    localStorage.setItem('asciiFarmerSave', JSON.stringify(gameState));
+}
+
+function loadGame() {
+    const savedState = localStorage.getItem('asciiFarmerSave');
+    if (savedState) {
+        const gameState = JSON.parse(savedState);
+        coins = gameState.coins;
+        seeds = gameState.seeds;
+        water = gameState.water;
+        crops = gameState.crops;
+        plots = gameState.plots;
+        plotCost = gameState.plotCost;
+        waterRefills = gameState.waterRefills;
+        waterUpgradeCost = gameState.waterUpgradeCost;
+        maxWaterCapacity = gameState.maxWaterCapacity;
+        expandedClickPurchased = gameState.expandedClickPurchased;
+        expandedClickEnabled = gameState.expandedClickEnabled;
+    }
+}
+
+function resetGame() {
+    if (confirm("Are you sure you want to reset the game? This will clear all your progress.")) {
+        localStorage.removeItem('asciiFarmerSave');
+        location.reload(); // Reload the page to reset the game
+    }
+}
+
 // Upgrade information
 let expandedClickPurchased = false;
 let expandedClickEnabled = false;
-
 
 // Store Functions & Initialization
 document.addEventListener("DOMContentLoaded", function() {
@@ -25,6 +67,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function initializeStore() {
+    // Clear any existing items to prevent duplicates
+    document.getElementById('items-for-sale').innerHTML = '<h5>For Sale</h5>';
+    document.getElementById('items-for-purchase').innerHTML = '<h5>Crop Market</h5>';
+
     // Items for sale
     addStoreItem("items-for-sale", "Water", "10x", "1c", buyWater);
     addStoreItem("items-for-sale", "Seed", "1x", "1c", buySeed);
@@ -85,7 +131,7 @@ function buyWater() {
         updateCurrency();
 
         if (waterRefills === 3) {
-            addWaterUpgradeSection();
+            addWaterUpgradeButton();
         }
     } else {
         alert("Not enough coins!");
@@ -114,15 +160,87 @@ function buyPlot() {
         updateBuyPlotButton();
 
         if (plots === 3) {
-            addExpandedClickUpgradeSection();
+            addExpandedClickUpgradeMk1Button();
         }
     } else {
         alert("Not enough coins or field is full!");
     }
 }
 
-// Functions that handle adding sections to the game window
-function addUpgradesSection() {
+// Function to initialize the Upgrades section
+function initializeUpgradesSection() {
+    if (!document.getElementById('upgrades-section')) {
+        const store = document.getElementById('store');
+        const upgradeSection = document.createElement('div');
+        upgradeSection.className = 'store-section';
+        upgradeSection.id = 'upgrades-section';
+
+        const upgradeTitle = document.createElement('h5');
+        upgradeTitle.textContent = 'Upgrades';
+        upgradeSection.appendChild(upgradeTitle);
+
+        store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
+    }
+}
+
+// Function to add Water Upgrade button
+function addWaterUpgradeButton() {
+    initializeUpgradesSection();
+    const upgradeSection = document.getElementById('upgrades-section');
+
+    const upgradeButton = document.createElement('button');
+    upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
+    upgradeButton.className = 'store-button';
+    upgradeButton.onclick = buyWaterUpgrade;
+    upgradeSection.appendChild(upgradeButton);
+}
+
+// Function to add Expanded Click Upgrade button
+function addExpandedClickUpgradeMk1Button() {
+    initializeUpgradesSection();
+    const upgradeSection = document.getElementById('upgrades-section');
+
+    const upgradeButton = document.createElement('button');
+    upgradeButton.textContent = `Expanded Click Mk.1: 100c`;
+    upgradeButton.className = 'store-button';
+    upgradeButton.onclick = buyExpandedClickUpgradeMk1;
+    upgradeSection.appendChild(upgradeButton);
+}
+
+// Functions for buying upgrades
+function buyWaterUpgrade() {
+    if (coins >= waterUpgradeCost) {
+        coins -= waterUpgradeCost;
+        maxWaterCapacity += 10;
+        waterUpgradeCost += 5;
+        updateCurrency();
+        updateUpgradeButton();
+    } else {
+        alert("Not enough coins!");
+    }
+}
+
+function updateUpgradeButton() {
+    const upgradeButton = document.querySelector('#upgrades-section .store-button');
+    if (upgradeButton) {
+        upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
+    }
+}
+
+function buyExpandedClickUpgradeMk1() {
+    if (coins >= 100) {
+        coins -= 100;
+        expandedClickPurchased = true;
+        updateCurrency();
+        document.querySelector('#upgrades-section .store-button:last-child').remove(); // Remove the upgrade button after purchase
+        addExpandedClickToggle();
+    } else {
+        alert("Not enough coins!");
+    }
+}
+
+// Function to add Expanded Click toggle switch
+function addExpandedClickToggle() {
     const container = document.createElement('div');
     container.className = 'upgrades-container';
 
@@ -157,78 +275,6 @@ function addUpgradesSection() {
     fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
 }
 
-// Functions that add Store Upgrade Buttons
-function addWaterUpgradeSection() {
-    const store = document.getElementById('store');
-    const upgradeSection = document.createElement('div');
-    upgradeSection.className = 'store-section';
-    upgradeSection.id = 'upgrades-section';
-
-    const upgradeTitle = document.createElement('h5');
-    upgradeTitle.textContent = 'Upgrades';
-    upgradeSection.appendChild(upgradeTitle);
-
-    const upgradeButton = document.createElement('button');
-    upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
-    upgradeButton.className = 'store-button';
-    upgradeButton.onclick = buyWaterUpgrade;
-    upgradeSection.appendChild(upgradeButton);
-
-    store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
-}
-
-function addExpandedClickUpgradeSection() {
-    const store = document.getElementById('store');
-    const upgradeSection = document.createElement('div');
-    upgradeSection.className = 'store-section';
-    upgradeSection.id = 'expanded-click-section';
-
-    const upgradeTitle = document.createElement('h5');
-    upgradeTitle.textContent = 'Upgrades';
-    upgradeSection.appendChild(upgradeTitle);
-
-    const upgradeButton = document.createElement('button');
-    upgradeButton.textContent = `Expanded Click Mk.1: 100c`;
-    upgradeButton.className = 'store-button';
-    upgradeButton.onclick = buyExpandedClickUpgrade;
-    upgradeSection.appendChild(upgradeButton);
-
-    store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
-}
-
-// Functions for Buying Upgrades
-function buyWaterUpgrade() {
-    if (coins >= waterUpgradeCost) {
-        coins -= waterUpgradeCost;
-        maxWaterCapacity += 10;
-        waterUpgradeCost += 5;
-        updateCurrency();
-        updateUpgradeButton();
-    } else {
-        alert("Not enough coins!");
-    }
-}
-
-function updateUpgradeButton() {
-    const upgradeButton = document.querySelector('#upgrades-section .store-button');
-    if (upgradeButton) {
-        upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
-    }
-}
-
-function buyExpandedClickUpgrade() {
-    if (coins >= 100) {
-        coins -= 100;
-        expandedClickPurchased = true;
-        updateCurrency();
-        document.getElementById('expanded-click-section').remove(); // Remove the upgrade button after purchase
-        addUpgradesSection(); // Add the new section with the toggle switch
-    } else {
-        alert("Not enough coins!");
-    }
-}
-
-
 // Function for selling crops
 function sellCrop(quantity) {
     let price;
@@ -259,8 +305,9 @@ function sellCrop(quantity) {
 function updateCurrency() {
     document.getElementById('coins').innerText = Math.floor(coins);
     document.getElementById('seeds').innerText = Math.floor(seeds);
-    document.getElementById('water').innerText = Math.floor(water);
+    document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
     document.getElementById('crops').innerText = Math.floor(crops);
+    saveGame(); 
 }
 
 // Function to update field display
@@ -274,6 +321,7 @@ function updateField() {
         plot.addEventListener('click', () => handlePlotClick(plot));
         fieldElement.appendChild(plot);
     }
+    saveGame();
 }
 
 // Function to handle plot click
@@ -419,7 +467,14 @@ function handleAdjacentPlotClick(plot) {
 // Initialize the game
 updateCurrency();
 updateField();
+document.addEventListener("DOMContentLoaded", function() {
+    loadGame();
+    initializeStore();
+    updateCurrency();
+    updateField();
+});
 
+//Opening Modal
 // Get the modal
 const modal = document.getElementById("welcomeModal");
 
