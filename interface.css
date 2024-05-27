@@ -1,16 +1,18 @@
-/* Global Body Styles */
 body {
     font-family: monospace;
   }
   
-  /* Title Styles */
   .title {
-      text-align: left;
+      display: flex;
+      justify-content: center;
       margin-top: 10px;
-      white-space: pre;
       font: inherit;
       font-size: 16px;
       line-height: 1.1;
+  }
+  
+  .title pre {
+      text-align: left;
   }
   
   /* Currency Bar Styles */
@@ -19,26 +21,24 @@ body {
       display: flex;
       justify-content: space-around;
       margin: 10px auto;
-      padding: 10px;
-      width: auto;
+      padding: 5px;
       border: 2px dashed black;
-  }
-  
-  .currency-bar span {
-      font: inherit;
-      margin-right: 10px;
+      width: 320px; /* Locking width to match the field */
+      box-sizing: border-box; /* Include padding in the width */
   }
   
   .currency-item {
       font: inherit;
       display: flex;
+      flex-direction: column;
       align-items: center;
+      margin: 0 5px;
   }
   
   .currency-item span {
-      display: inline-block;
-      margin-left: 5px;
-      padding: 5px;
+      display: block;
+      margin-top: 2px;
+      padding: 2px;
       border: 2px solid black;
   }
   
@@ -87,7 +87,7 @@ body {
       border: 2px dashed black;
       margin: 10px auto;
       padding: 10px;
-      width: auto; 
+      width: 320px; /* Locking width to match the field */
       text-align: center; /* Center buttons */
   }
   
@@ -133,7 +133,7 @@ body {
       border: 2px dashed black;
       margin: 10px auto;
       padding: 10px;
-      width: auto;
+      width: 320px; /* Locking width to match the field */
       text-align: center;
   }
   
