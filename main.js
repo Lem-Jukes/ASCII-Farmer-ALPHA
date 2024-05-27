@@ -62,10 +62,6 @@ let expandedClickPurchased = false;
 let expandedClickEnabled = false;
 
 // Store Functions & Initialization
-document.addEventListener("DOMContentLoaded", function() {
-    initializeStore();
-});
-
 function initializeStore() {
     // Clear any existing items to prevent duplicates
     document.getElementById('items-for-sale').innerHTML = '<h5>For Sale</h5>';
