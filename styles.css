@@ -136,11 +136,20 @@ body {
   .save-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Add some margin to separate it from other elements */
   }
+
   .state-button {
-    display: flex;
-    justify-content: center;
+    font: inherit;
+    padding: 10px 20px; /* Adjust padding as needed */
+    margin: 0 10px; /* Add some margin between buttons */
+    cursor: pointer;
+    border: 2px solid #000; /* Example border style */
+    background-color: #fff; /* Example background color */
   }
+
+
   /* Modal Styles */
   .modal {
       font: inherit;
