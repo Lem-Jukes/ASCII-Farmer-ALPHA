@@ -479,8 +479,6 @@ function handleAdjacentPlotClick(plot) {
 }
 
 // Initialize the game
-updateCurrency();
-updateField();
 document.addEventListener("DOMContentLoaded", function() {
     loadGame();
     initializeStore();
