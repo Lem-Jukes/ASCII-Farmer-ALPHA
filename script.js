@@ -16,46 +16,64 @@ let maxWaterCapacity = 10; // Initial max water capacity
 
 //Save & Load State Functions
 function saveGame() {
-    const gameState = {
-        coins: coins,
-        seeds: seeds,
-        water: water,
-        crops: crops,
-        plots: plots,
-        plotCost: plotCost,
-        waterRefills: waterRefills,
-        waterUpgradeCost: waterUpgradeCost,
-        maxWaterCapacity: maxWaterCapacity,
-        expandedClickPurchased: expandedClickPurchased,
-        expandedClickEnabled: expandedClickEnabled
-    };
-    localStorage.setItem('asciiFarmerSave', JSON.stringify(gameState));
+    try {
+        const gameState = {
+            coins: coins,
+            seeds: seeds,
+            water: water,
+            crops: crops,
+            plots: plots,
+            plotCost: plotCost,
+            waterRefills: waterRefills,
+            waterUpgradeCost: waterUpgradeCost,
+            maxWaterCapacity: maxWaterCapacity,
+            expandedClickPurchased: expandedClickPurchased,
+            expandedClickEnabled: expandedClickEnabled
+        };
+        localStorage.setItem('asciiFarmerSave', JSON.stringify(gameState));
+        console.log("Game saved successfully.");
+    } catch (error) {
+        console.error("Error saving game:", error);
+    }
 }
 
 function loadGame() {
-    const savedState = localStorage.getItem('asciiFarmerSave');
-    if (savedState) {
-        const gameState = JSON.parse(savedState);
-        coins = gameState.coins;
-        seeds = gameState.seeds;
-        water = gameState.water;
-        crops = gameState.crops;
-        plots = gameState.plots;
-        plotCost = gameState.plotCost;
-        waterRefills = gameState.waterRefills;
-        waterUpgradeCost = gameState.waterUpgradeCost;
-        maxWaterCapacity = gameState.maxWaterCapacity;
-        expandedClickPurchased = gameState.expandedClickPurchased;
-        expandedClickEnabled = gameState.expandedClickEnabled;
+    try {
+        const savedState = localStorage.getItem('asciiFarmerSave');
+        if (savedState) {
+            const gameState = JSON.parse(savedState);
+            coins = gameState.coins;
+            seeds = gameState.seeds;
+            water = gameState.water;
+            crops = gameState.crops;
+            plots = gameState.plots;
+            plotCost = gameState.plotCost;
+            waterRefills = gameState.waterRefills;
+            waterUpgradeCost = gameState.waterUpgradeCost;
+            maxWaterCapacity = gameState.maxWaterCapacity;
+            expandedClickPurchased = gameState.expandedClickPurchased;
+            expandedClickEnabled = gameState.expandedClickEnabled;
+            console.log("Game loaded successfully.");
+        } else {
+            console.log("No saved game found.");
+        }
+    } catch (error) {
+        console.error("Error loading game:", error);
     }
 }
 
 function resetGame() {
     if (confirm("Are you sure you want to reset the game? This will clear all your progress.")) {
-        localStorage.removeItem('asciiFarmerSave');
-        location.reload(); // Reload the page to reset the game
+        try {
+            localStorage.removeItem('asciiFarmerSave');
+            console.log("Game reset successfully.");
+            location.reload(); // Reload the page to reset the game
+        } catch (error) {
+            console.error("Error resetting game:", error);
+        }
     }
 }
+
 
 // Upgrade information
 let expandedClickPurchased = false;
