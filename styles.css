@@ -135,7 +135,7 @@ body {
   /* save and reset button styles */
   .save-container {
     display: flex;
-    text-align: center;
+    justify-content: center;
   }
 
   /* Modal Styles */
