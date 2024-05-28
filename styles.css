@@ -137,7 +137,10 @@ body {
     display: flex;
     justify-content: center;
   }
-
+  .state-button {
+    display: flex;
+    justify-content: center;
+  }
   /* Modal Styles */
   .modal {
       font: inherit;
