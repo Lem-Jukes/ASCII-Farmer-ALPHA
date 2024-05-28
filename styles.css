@@ -90,41 +90,15 @@ body {
       width: 320px; /* Locking width to match the field */
       text-align: center; /* Center buttons */
   }
-  
-  .store-section {
-      font: inherit;
-      margin: 10px 0;
-      padding: 5px;
-      text-align: center;
+    
+  #items-for-sale .store-item {
+        display: inline-block;
+        padding: 2px;
   }
-  
-  .store-section h5 {
-      font: inherit;
-      margin-bottom: 5px;
-      text-align: center;
-  }
-  
-  .store-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 5px;
-  }
-  
-  .store-item-label, .store-item-price {
-      margin: 0 5px;
-  }
-  
-  .store-button {
-      font: inherit;
-      padding: 5px 10px; /* Added padding for more space */
-      margin: 2px;
-  }
-  
-  .store-button-large {
-      width: 100%; /* Full width for large button */
-      padding: 10px;
-      text-align: center;
+
+  #items-for-purchase .store-item {
+        display: inline-block;
+        padding: 5px;
   }
   
   /* Upgrade Styles */

@@ -81,9 +81,6 @@ let expandedClickEnabled = false;
 
 // Store Functions & Initialization
 function initializeStore() {
-    // Clear any existing items to prevent duplicates
-    document.getElementById('items-for-sale').innerHTML = '<h5>For Sale</h5>';
-    document.getElementById('items-for-purchase').innerHTML = '<h5>Crop Market</h5>';
 
     // Items for sale
     addStoreItem("items-for-sale", "Water", "10x", "1c", buyWater);
