@@ -321,7 +321,6 @@ function updateCurrency() {
     document.getElementById('seeds').innerText = Math.floor(seeds);
     document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
     document.getElementById('crops').innerText = Math.floor(crops);
-    saveGame(); 
 }
 
 // Function to update field display
@@ -335,7 +334,6 @@ function updateField() {
         plot.addEventListener('click', () => handlePlotClick(plot));
         fieldElement.appendChild(plot);
     }
-    saveGame();
 }
 
 // Function to handle plot click
