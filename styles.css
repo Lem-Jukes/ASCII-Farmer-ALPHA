@@ -93,7 +93,7 @@ body {
     
   #items-for-sale .store-item {
         display: inline-block;
-        padding: 2px;
+        padding: 5px;
   }
 
   #items-for-purchase .store-item {
