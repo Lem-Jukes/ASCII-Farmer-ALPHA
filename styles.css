@@ -132,6 +132,11 @@ body {
       cursor: pointer;
   }
   
+  /* save and reset button styles */
+  .save-container {
+    text-align: center;
+  }
+
   /* Modal Styles */
   .modal {
       font: inherit;
