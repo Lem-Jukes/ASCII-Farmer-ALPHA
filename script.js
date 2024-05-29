@@ -2,7 +2,7 @@
 let coins = 1500;
 let seeds = 1;
 let water = 10;
-let crops = 0;
+let crops = 50;
 
 // Achievment Variables
 let cropsSold = 0;
