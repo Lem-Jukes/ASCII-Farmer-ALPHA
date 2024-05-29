@@ -1,5 +1,5 @@
 // Player Currency Values
-let coins = 15;
+let coins = 1500;
 let seeds = 1;
 let water = 10;
 let crops = 0;
