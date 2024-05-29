@@ -90,6 +90,12 @@ body {
       width: 320px; /* Locking width to match the field */
       text-align: center; /* Center buttons */
   }
+
+  .store-section-label {
+    font: inherit;
+    text-align: center;
+    margin-bottom: 10px;
+}
     
   #items-for-sale .store-item {
         display: inline-block;
@@ -120,6 +126,7 @@ body {
   .upgrade-item {
       display: flex;
       justify-content: center;
+      padding: 5px;
       align-items: center;
       margin-bottom: 5px;
   }
