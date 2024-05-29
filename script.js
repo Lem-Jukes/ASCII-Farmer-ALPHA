@@ -95,7 +95,6 @@ function updateCurrency() {
     document.getElementById('seeds').innerText = Math.floor(seeds);
     document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
     document.getElementById('crops').innerText = Math.floor(crops);
-    saveGame();
 }
 
 // Function to add coins to inventory after sale
@@ -600,7 +599,6 @@ function showInstructions() {
 
 // Initialize the game
 document.addEventListener("DOMContentLoaded", function() {
-    loadGame();
     initializeStore();
     updateCurrency();
     updateField();
