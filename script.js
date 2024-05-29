@@ -252,12 +252,14 @@ function initializeUpgradesSection() {
 
 // Function to initialize the Upgrades container
 function initializeUpgradesContainer() {
-    const container = document.createElement('div');
-    container.className = 'upgrades-container';
-    container.id = 'upgrades-container';
+    if (!document.getElementById('upgrades-container')) {
+        const container = document.createElement('div');
+        container.className = 'upgrades-container';
+        container.id = 'upgrades-container';
 
-    const fieldContainer = document.querySelector('.field-container');
-    fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
+        const fieldContainer = document.querySelector('.field-container');
+        fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
+    }
 }
 
 // Function to add Water Upgrade button
