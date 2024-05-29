@@ -52,26 +52,37 @@
         <h2 class="store-title">The Store</h2>
         <div class="store" id="store">
             <div class="store-section" id="items-for-sale">
-                <h5>For Sale</h5>
+                <div class="store-section" id="for-sale-label">For Sale:</div>
+                <!-- Store content is dynamically generated -->              
             </div>
             <div class="store-section" id="items-for-purchase">
-                <h5>Crop Market</h5>
+                <div class="store-section-label" id="for-purchase-label">Crop Market:</div>
+                <!-- Store content is dynamically generated -->
             </div>
             <div class="store-section" id="field-expansion">
-                <h5>Field Expansion</h5>
+                <div class="store-section-label" id="field-expansion-label">Field Expansion</div>
                 <button id="buy-plot-button" class="store-button-large" onclick="buyPlot()">Buy Plot: 10c</button>
             </div>
         </div>
     </div>
 
-    <div class="save-containter" id="save-containter">
+    <div class="save-container" id="save-container">
         <button id="save-button" class="state-button" onclick="saveGame()">Save Game</button>
+        <button id="load-button" class="state-button" onclick="loadGame()">Load Game</button>
         <button id="reset-button" class="state-button" onclick="resetGame()">Reset Game</button>
     </div>
-
+  
+    <div class="instructions-container" id="instructions-container">
+        <button id="instructions-button" class="info-button" onclick="showInstructions()">Instructions</button>
+    </div>  
+    
+    <div class="byLine-container" id="byLine-container">
+      <h6> by Juke LTD.
+    </div>
+  
     <script src="script.js"></script>
 
-  <!-- Modal -->
+  <!-- Modals -->
 <div id="welcomeModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeModal">&times;</span>
@@ -101,6 +112,14 @@
         <p>Enjoy your time as an ASCII Farmer and watch your farm flourish with each click!</p>
     </div>
 </div>
-  
+
+<div id="milestoneModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeMilestoneModal">&times;</span>
+        <h2>Milestone Reached!</h2>
+        <p></p>
+    </div>
+</div>
+
   </body>
 </html>

@@ -133,22 +133,16 @@ body {
   }
   
   /* save and reset button styles */
-  .save-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px; /* Add some margin to separate it from other elements */
-  }
+.save-container {
+  text-align: center;
+  margin-top: 25px;
+}
 
-  .state-button {
-    font: inherit;
-    padding: 10px 20px; /* Adjust padding as needed */
-    margin: 0 10px; /* Add some margin between buttons */
-    cursor: pointer;
-    border: 2px solid #000; /* Example border style */
-    background-color: #fff; /* Example background color */
-  }
-
+  /* save and reset button styles */
+.instructions-container {
+  text-align: center;
+  margin-top: 5px;
+}
 
   /* Modal Styles */
   .modal {

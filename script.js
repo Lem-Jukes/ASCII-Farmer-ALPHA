@@ -4,6 +4,10 @@ let seeds = 1;
 let water = 10;
 let crops = 0;
 
+// Achievment Variables
+let totalCoinsEarned = 0;
+let milestonesAchieved = [];
+
 // Field Information
 let plots = 0;
 
@@ -28,7 +32,9 @@ function saveGame() {
             waterUpgradeCost: waterUpgradeCost,
             maxWaterCapacity: maxWaterCapacity,
             expandedClickPurchased: expandedClickPurchased,
-            expandedClickEnabled: expandedClickEnabled
+            expandedClickEnabled: expandedClickEnabled,
+            totalCoinsEarned: totalCoinsEarned,
+            milestonesAchieved: milestonesAchieved
         };
         localStorage.setItem('asciiFarmerSave', JSON.stringify(gameState));
         console.log("Game saved successfully.");
@@ -53,6 +59,8 @@ function loadGame() {
             maxWaterCapacity = gameState.maxWaterCapacity;
             expandedClickPurchased = gameState.expandedClickPurchased;
             expandedClickEnabled = gameState.expandedClickEnabled;
+            totalCoinsEarned = gameState.totalCoinsEarned;
+            milestonesAchieved = gameState.milestonesAchieved;
             console.log("Game loaded successfully.");
         } else {
             console.log("No saved game found.");
@@ -74,6 +82,42 @@ function resetGame() {
     }
 }
 
+// Currency Funcitons
+// Function to update currency display
+function updateCurrency() {
+    document.getElementById('coins').innerText = Math.floor(coins);
+    document.getElementById('seeds').innerText = Math.floor(seeds);
+    document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
+    document.getElementById('crops').innerText = Math.floor(crops);
+    saveGame();
+}
+
+// Function to add coins to inventory after sale
+function addCoins(amount) {
+    coins += amount;
+    totalCoinsEarned += amount;
+    checkMilestones();
+    updateCurrency();
+}
+
+// Achievment Functions
+function checkMilestones() {
+    const milestones = [100, 500, 1000, 5000, 10000];
+    for (const milestone of milestones) {
+        if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
+            showMilestoneModal(milestone);
+            milestonesAchieved.push(milestone);
+            saveGame();
+        }
+    }
+}
+
+function showMilestoneModal(milestone) {
+    const modal = document.getElementById("milestoneModal");
+    const modalContent = document.querySelector("#milestoneModal .modal-content p");
+    modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
+    modal.style.display = "block";
+}
 
 // Upgrade information
 let expandedClickPurchased = false;
@@ -304,20 +348,11 @@ function sellCrop(quantity) {
     }
 
     if (crops >= quantity) {
-        coins += price;
         crops -= quantity;
-        updateCurrency();
+        addCoins(price);
     } else {
         alert("Not enough crops!");
     }
-}
-
-// Function to update currency display
-function updateCurrency() {
-    document.getElementById('coins').innerText = Math.floor(coins);
-    document.getElementById('seeds').innerText = Math.floor(seeds);
-    document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
-    document.getElementById('crops').innerText = Math.floor(crops);
 }
 
 // Function to update field display
@@ -412,13 +447,17 @@ function affectAdjacentPlots(index) {
     // Affect the left plot
     if (index % 10 !== 0) { // Not on the left edge
         const leftPlot = plots[index - 1];
-        handleAdjacentPlotClick(leftPlot);
+        if (!leftPlot.disabled) {
+            handleAdjacentPlotClick(leftPlot);
+        }
     }
 
     // Affect the right plot
     if (index % 10 !== 9) { // Not on the right edge
         const rightPlot = plots[index + 1];
-        handleAdjacentPlotClick(rightPlot);
+        if (!rightPlot.disabled) {
+            handleAdjacentPlotClick(rightPlot);
+        }
     }
 }
 
@@ -473,35 +512,57 @@ function handleAdjacentPlotClick(plot) {
     updateCurrency();
 }
 
+// Function to show instructions modal
+function showInstructions() {
+    const modal = document.getElementById("welcomeModal");
+    modal.style.display = "block";
+}
+
+// Achievments
+
+
 // Initialize the game
 document.addEventListener("DOMContentLoaded", function() {
     loadGame();
     initializeStore();
     updateCurrency();
     updateField();
-    //Opening Modal
-    // Get the modal
-    const modal = document.getElementById("welcomeModal");
 
-    // Get the <span> element that closes the modal
-    const span = document.getElementById("closeModal");
+    // Get the modals
+    const welcomeModal = document.getElementById("welcomeModal");
+    const milestoneModal = document.getElementById("milestoneModal");
+    const closeModal = document.getElementById("closeModal");
+    const closeMilestoneModal = document.getElementById("closeMilestoneModal");
 
-    // When the page loads, open the modal
-    window.onload = function() {
-        modal.style.display = "block";
-    }
+    // Check if any saved game exists
+    const savedState = localStorage.getItem('asciiFarmerSave');
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+    if (!savedState) {
+        // When the page loads, open the modal
+        window.onload = function() {
+            welcomeModal.style.display = "block";
         }
     }
 
+    // When the user clicks on <span> (x), close the modal
+    closeModal.onclick = function() {
+        welcomeModal.style.display = "none";
+    }
+
+    // When the user clicks on <span> (x), close the milestone modal
+    closeMilestoneModal.onclick = function() {
+        milestoneModal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modals, close them
+    window.onclick = function(event) {
+        if (event.target == welcomeModal) {
+            welcomeModal.style.display = "none";
+        } else if (event.target == milestoneModal) {
+            milestoneModal.style.display = "none";
+        }
+    }
 });
+
+
 
