@@ -2,13 +2,7 @@
 let coins = 1500;
 let seeds = 1;
 let water = 10;
-let crops = 50;
-
-// Achievment Variables
-let cropsSold = 0;
-let seedsBought = 0;
-let totalCoinsEarned = 0;
-let milestonesAchieved = [];
+let crops = 0;
 
 // Field Information
 let plots = 0;
@@ -20,7 +14,16 @@ let waterRefills = 0;
 let waterUpgradeCost = 50;
 let maxWaterCapacity = 10; // Initial max water capacity
 
-//Save & Load State Functions
+let totalCoinsEarned = 0;
+let milestonesAchieved = [];
+let cropsSold = 0;
+let seedsBought = 0;
+
+// Upgrade information
+let expandedClickPurchased = false;
+let expandedClickEnabled = false;
+
+// Save & Load State Functions
 function saveGame() {
     try {
         const gameState = {
@@ -75,22 +78,20 @@ function loadGame() {
             updateField();
 
             // Clear and initialize the upgrade section if necessary
-            const upgradesSection = document.getElementById('upgrades-section');
-            if (upgradesSection) {
-                upgradesSection.remove();
+            const upgradesContainer = document.getElementById('upgrades-container');
+            if (upgradesContainer) {
+                upgradesContainer.remove();
             }
 
-            if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
-                initializeUpgradesSection();
+            if (expandedClickPurchased) {
+                initializeUpgradesContainer();
                 if (waterRefills >= 3) {
                     addWaterUpgradeButton();
                 }
                 if (plots >= 3) {
                     addExpandedClickUpgradeMk1Button();
                 }
-                if (expandedClickPurchased) {
-                    addExpandedClickToggle();
-                }
+                addExpandedClickToggle();
             }
         } else {
             console.log("No saved game found.");
@@ -100,79 +101,6 @@ function loadGame() {
     }
 }
 
-
-function resetGame() {
-    if (confirm("Are you sure you want to reset the game? This will clear all your progress.")) {
-        try {
-            localStorage.removeItem('asciiFarmerSave');
-            console.log("Game reset successfully.");
-            location.reload(); // Reload the page to reset the game
-        } catch (error) {
-            console.error("Error resetting game:", error);
-        }
-    }
-}
-
-// Currency Funcitons
-// Function to update currency display
-function updateCurrency() {
-    document.getElementById('coins').innerText = Math.floor(coins);
-    document.getElementById('seeds').innerText = Math.floor(seeds);
-    document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
-    document.getElementById('crops').innerText = Math.floor(crops);
-}
-
-// Function to add coins to inventory after sale
-function addCoins(amount) {
-    coins += amount;
-    totalCoinsEarned += amount;
-    checkMilestones();
-    updateCurrency();
-}
-
-// Achievment Functions
-function checkMilestones() {
-    const milestones = [100, 500, 1000, 5000, 10000];
-    for (const milestone of milestones) {
-        if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
-            showMilestoneModal(milestone);
-            milestonesAchieved.push(milestone);
-        }
-    }
-}
-
-function showMilestoneModal(milestone) {
-    const modal = document.getElementById("milestoneModal");
-    const modalContent = document.querySelector("#milestoneModal .modal-content p");
-    modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
-    modal.style.display = "block";
-}
-
-function checkSeedMilestones() {
-    const seedMilestones = [50, 100, 250];
-    for (const milestone of seedMilestones) {
-        if (seedsBought >= milestone && !milestonesAchieved.includes(`seeds-${milestone}`)) {
-            addSeedPurchaseOption(milestone);
-            milestonesAchieved.push(`seeds-${milestone}`);
-        }
-    }
-}
-
-function checkCropMilestones() {
-    const cropMilestones = [50, 100, 250];
-    for (const milestone of cropMilestones) {
-        if (cropsSold >= milestone && !milestonesAchieved.includes(`crops-${milestone}`)) {
-            addCropSaleOption(milestone);
-            milestonesAchieved.push(`crops-${milestone}`);
-        }
-    }
-}
-
-// Upgrade information
-let expandedClickPurchased = false;
-let expandedClickEnabled = false;
-
-// Store Functions & Initialization
 function initializeStore() {
     // Clear previous store items
     const itemsForSale = document.getElementById("items-for-sale");
@@ -204,7 +132,6 @@ function initializeStore() {
         upgradesSection.remove();
     }
 
-    // Initialize the upgrade section if any conditions are met
     if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
         initializeUpgradesSection();
         if (waterRefills >= 3) {
@@ -221,6 +148,7 @@ function initializeStore() {
     updateCurrency();
 }
 
+// Store Functions & Initialization
 function addStoreItem(sectionId, label, buttonText, price, onClickFunction) {
     const section = document.getElementById(sectionId);
     const itemDiv = document.createElement('div');
@@ -251,18 +179,6 @@ function addStoreItem(sectionId, label, buttonText, price, onClickFunction) {
 function updateBuyPlotButton() {
     const button = document.getElementById('buy-plot-button');
     button.textContent = `Buy Plot: ${Math.round(plotCost)}c`;
-}
-
-function addSeedPurchaseOption(milestone) {
-    const itemsForSale = document.getElementById("items-for-sale");
-    const price = (milestone / 10) * 8; // Example pricing strategy: 5 seeds for 4c, 10 seeds for 8c, etc.
-    addStoreItem("items-for-sale", "Seed", `${milestone / 10}x`, `${price}c`, () => buySeeds(milestone / 10, price));
-}
-
-function addCropSaleOption(milestone) {
-    const itemsForPurchase = document.getElementById("items-for-purchase");
-    const price = (milestone / 10) * 7; // Example pricing strategy: 5 crops for 14c, 10 crops for 28c, etc.
-    addStoreItem("items-for-purchase", "", `${milestone / 10}x`, `${price}c`, () => sellCrop(milestone / 10));
 }
 
 // Functions for buying items
@@ -334,6 +250,16 @@ function initializeUpgradesSection() {
     }
 }
 
+// Function to initialize the Upgrades container
+function initializeUpgradesContainer() {
+    const container = document.createElement('div');
+    container.className = 'upgrades-container';
+    container.id = 'upgrades-container';
+
+    const fieldContainer = document.querySelector('.field-container');
+    fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
+}
+
 // Function to add Water Upgrade button
 function addWaterUpgradeButton() {
     initializeUpgradesSection();
@@ -384,6 +310,7 @@ function buyExpandedClickUpgradeMk1() {
         expandedClickPurchased = true;
         updateCurrency();
         document.querySelector('#upgrades-section .store-button:last-child').remove(); // Remove the upgrade button after purchase
+        initializeUpgradesContainer();
         addExpandedClickToggle();
     } else {
         alert("Not enough coins!");
@@ -392,13 +319,7 @@ function buyExpandedClickUpgradeMk1() {
 
 // Function to add Expanded Click toggle switch
 function addExpandedClickToggle() {
-    const container = document.createElement('div');
-    container.className = 'upgrades-container';
-
-    const title = document.createElement('h2');
-    title.className = 'upgrades-title';
-    title.textContent = 'Upgrades';
-    container.appendChild(title);
+    const container = document.getElementById('upgrades-container');
 
     const upgradeItem = document.createElement('div');
     upgradeItem.className = 'upgrade-item';
@@ -421,11 +342,9 @@ function addExpandedClickToggle() {
     upgradeItem.appendChild(toggle);
 
     container.appendChild(upgradeItem);
-
-    const fieldContainer = document.querySelector('.field-container');
-    fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
 }
 
+// Function for selling crops
 function sellCrop(quantity) {
     let price;
     switch (quantity) {
@@ -451,6 +370,14 @@ function sellCrop(quantity) {
     } else {
         alert("Not enough crops!");
     }
+}
+
+// Function to update currency display
+function updateCurrency() {
+    document.getElementById('coins').innerText = Math.floor(coins);
+    document.getElementById('seeds').innerText = Math.floor(seeds);
+    document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
+    document.getElementById('crops').innerText = Math.floor(crops);
 }
 
 // Function to update field display
@@ -610,17 +537,9 @@ function handleAdjacentPlotClick(plot) {
     updateCurrency();
 }
 
-// Function to show instructions modal
-function showInstructions() {
-    const modal = document.getElementById("welcomeModal");
-    modal.style.display = "block";
-}
-
-// Achievments
-
-
 // Initialize the game
 document.addEventListener("DOMContentLoaded", function() {
+    loadGame();
     initializeStore();
     updateCurrency();
     updateField();
@@ -659,23 +578,63 @@ document.addEventListener("DOMContentLoaded", function() {
             milestoneModal.style.display = "none";
         }
     }
-
-    // Clear and initialize the upgrade section if necessary
-    const upgradesSection = document.getElementById('upgrades-section');
-    if (upgradesSection) {
-        upgradesSection.remove();
-    }
-
-    if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
-        initializeUpgradesSection();
-        if (waterRefills >= 3) {
-            addWaterUpgradeButton();
-        }
-        if (plots >= 3) {
-            addExpandedClickUpgradeMk1Button();
-        }
-        if (expandedClickPurchased) {
-            addExpandedClickToggle();
-        }
-    }
 });
+
+function addCoins(amount) {
+    coins += amount;
+    totalCoinsEarned += amount;
+    checkMilestones();
+    updateCurrency();
+}
+
+function checkMilestones() {
+    const milestones = [100, 500, 1000, 5000, 10000];
+    for (const milestone of milestones) {
+        if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
+            showMilestoneModal(milestone);
+            milestonesAchieved.push(milestone);
+            saveGame();
+        }
+    }
+}
+
+function showMilestoneModal(milestone) {
+    const modal = document.getElementById("milestoneModal");
+    const modalContent = document.querySelector("#milestoneModal .modal-content p");
+    modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
+    modal.style.display = "block";
+}
+
+function checkSeedMilestones() {
+    const seedMilestones = [50, 100, 250];
+    for (const milestone of seedMilestones) {
+        if (seedsBought >= milestone && !milestonesAchieved.includes(`seeds-${milestone}`)) {
+            addSeedPurchaseOption(milestone);
+            milestonesAchieved.push(`seeds-${milestone}`);
+            saveGame();
+        }
+    }
+}
+
+function addSeedPurchaseOption(milestone) {
+    const itemsForSale = document.getElementById("items-for-sale");
+    const price = (milestone / 10) * 8; // Example pricing strategy: 5 seeds for 4c, 10 seeds for 8c, etc.
+    addStoreItem("items-for-sale", "Seed", `${milestone / 10}x`, `${price}c`, () => buySeed(milestone / 10, price));
+}
+
+function checkCropMilestones() {
+    const cropMilestones = [50, 100, 250];
+    for (const milestone of cropMilestones) {
+        if (cropsSold >= milestone && !milestonesAchieved.includes(`crops-${milestone}`)) {
+            addCropSaleOption(milestone);
+            milestonesAchieved.push(`crops-${milestone}`);
+            saveGame();
+        }
+    }
+}
+
+function addCropSaleOption(milestone) {
+    const itemsForPurchase = document.getElementById("items-for-purchase");
+    const price = (milestone / 10) * 7; // Example pricing strategy: 5 crops for 14c, 10 crops for 28c, etc.
+    addStoreItem("items-for-purchase", "", `${milestone / 10}x`, `${price}c`, () => sellCrop(milestone / 10));
+}
