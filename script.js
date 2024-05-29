@@ -78,10 +78,7 @@ function loadGame() {
             updateField();
 
             // Clear and initialize the upgrade section if necessary
-            const upgradesContainer = document.getElementById('upgrades-container');
-            if (upgradesContainer) {
-                upgradesContainer.remove();
-            }
+            clearUpgradeContainers();
 
             if (expandedClickPurchased) {
                 initializeUpgradesContainer();
@@ -91,7 +88,9 @@ function loadGame() {
                 if (plots >= 3) {
                     addExpandedClickUpgradeMk1Button();
                 }
-                addExpandedClickToggle();
+                if (expandedClickPurchased) {
+                    addExpandedClickToggle();
+                }
             }
         } else {
             console.log("No saved game found.");
@@ -101,6 +100,14 @@ function loadGame() {
     }
 }
 
+function clearUpgradeContainers() {
+    const upgradesSection = document.getElementById('upgrades-section');
+    if (upgradesSection) {
+        upgradesSection.remove();
+    }
+}
+
+// Store Functions & Initialization
 function initializeStore() {
     // Clear previous store items
     const itemsForSale = document.getElementById("items-for-sale");
@@ -127,13 +134,10 @@ function initializeStore() {
     checkCropMilestones();
 
     // Clear and initialize the upgrade section if necessary
-    const upgradesSection = document.getElementById('upgrades-section');
-    if (upgradesSection) {
-        upgradesSection.remove();
-    }
+    clearUpgradeContainers();
 
-    if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
-        initializeUpgradesSection();
+    if (expandedClickPurchased) {
+        initializeUpgradesContainer();
         if (waterRefills >= 3) {
             addWaterUpgradeButton();
         }
@@ -148,7 +152,6 @@ function initializeStore() {
     updateCurrency();
 }
 
-// Store Functions & Initialization
 function addStoreItem(sectionId, label, buttonText, price, onClickFunction) {
     const section = document.getElementById(sectionId);
     const itemDiv = document.createElement('div');
@@ -250,18 +253,6 @@ function initializeUpgradesSection() {
     }
 }
 
-// Function to initialize the Upgrades container
-function initializeUpgradesContainer() {
-    if (!document.getElementById('upgrades-container')) {
-        const container = document.createElement('div');
-        container.className = 'upgrades-container';
-        container.id = 'upgrades-container';
-
-        const fieldContainer = document.querySelector('.field-container');
-        fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
-    }
-}
-
 // Function to add Water Upgrade button
 function addWaterUpgradeButton() {
     initializeUpgradesSection();
@@ -284,6 +275,34 @@ function addExpandedClickUpgradeMk1Button() {
     upgradeButton.className = 'store-button';
     upgradeButton.onclick = buyExpandedClickUpgradeMk1;
     upgradeSection.appendChild(upgradeButton);
+}
+
+// Function to add Expanded Click toggle switch
+function addExpandedClickToggle() {
+    initializeUpgradesSection();
+    const upgradeSection = document.getElementById('upgrades-section');
+
+    const upgradeItem = document.createElement('div');
+    upgradeItem.className = 'upgrade-item';
+
+    const label = document.createElement('label');
+    label.className = 'upgrade-label';
+    label.textContent = 'Expanded Click Mk.1';
+    upgradeItem.appendChild(label);
+
+    const toggle = document.createElement('input');
+    toggle.type = 'checkbox';
+    toggle.className = 'upgrade-toggle';
+    toggle.checked = expandedClickEnabled;
+    toggle.onchange = () => {
+        expandedClickEnabled = toggle.checked;
+        if (expandedClickEnabled) {
+            alert("The Expanded Click Mk.1 is NOT a smart tool and will not track inventory stock levels. Users are encouraged to maintain stock levels manually.");
+        }
+    };
+    upgradeItem.appendChild(toggle);
+
+    upgradeSection.appendChild(upgradeItem);
 }
 
 // Functions for buying upgrades
@@ -312,38 +331,70 @@ function buyExpandedClickUpgradeMk1() {
         expandedClickPurchased = true;
         updateCurrency();
         document.querySelector('#upgrades-section .store-button:last-child').remove(); // Remove the upgrade button after purchase
-        initializeUpgradesContainer();
         addExpandedClickToggle();
     } else {
         alert("Not enough coins!");
     }
 }
 
-// Function to add Expanded Click toggle switch
-function addExpandedClickToggle() {
-    const container = document.getElementById('upgrades-container');
+// Function to handle coin earnings and check for milestones
+function addCoins(amount) {
+    coins += amount;
+    totalCoinsEarned += amount;
+    checkMilestones();
+    updateCurrency();
+}
 
-    const upgradeItem = document.createElement('div');
-    upgradeItem.className = 'upgrade-item';
-
-    const label = document.createElement('label');
-    label.className = 'upgrade-label';
-    label.textContent = 'Expanded Click Mk.1';
-    upgradeItem.appendChild(label);
-
-    const toggle = document.createElement('input');
-    toggle.type = 'checkbox';
-    toggle.className = 'upgrade-toggle';
-    toggle.checked = expandedClickEnabled;
-    toggle.onchange = () => {
-        expandedClickEnabled = toggle.checked;
-        if (expandedClickEnabled) {
-            alert("The Expanded Click Mk.1 is NOT a smart tool and will not track inventory stock levels. Users are encouraged to maintain stock levels manually.");
+function checkMilestones() {
+    const milestones = [100, 500, 1000, 5000, 10000];
+    for (const milestone of milestones) {
+        if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
+            showMilestoneModal(milestone);
+            milestonesAchieved.push(milestone);
+            saveGame();
         }
-    };
-    upgradeItem.appendChild(toggle);
+    }
+}
 
-    container.appendChild(upgradeItem);
+function showMilestoneModal(milestone) {
+    const modal = document.getElementById("milestoneModal");
+    const modalContent = document.querySelector("#milestoneModal .modal-content p");
+    modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
+    modal.style.display = "block";
+}
+
+function checkSeedMilestones() {
+    const seedMilestones = [50, 100, 250];
+    for (const milestone of seedMilestones) {
+        if (seedsBought >= milestone && !milestonesAchieved.includes(`seeds-${milestone}`)) {
+            addSeedPurchaseOption(milestone);
+            milestonesAchieved.push(`seeds-${milestone}`);
+            saveGame();
+        }
+    }
+}
+
+function addSeedPurchaseOption(milestone) {
+    const itemsForSale = document.getElementById("items-for-sale");
+    const price = (milestone / 10) * 8; // Example pricing strategy: 5 seeds for 4c, 10 seeds for 8c, etc.
+    addStoreItem("items-for-sale", "Seed", `${milestone / 10}x`, `${price}c`, () => buySeed(milestone / 10, price));
+}
+
+function checkCropMilestones() {
+    const cropMilestones = [50, 100, 250];
+    for (const milestone of cropMilestones) {
+        if (cropsSold >= milestone && !milestonesAchieved.includes(`crops-${milestone}`)) {
+            addCropSaleOption(milestone);
+            milestonesAchieved.push(`crops-${milestone}`);
+            saveGame();
+        }
+    }
+}
+
+function addCropSaleOption(milestone) {
+    const itemsForPurchase = document.getElementById("items-for-purchase");
+    const price = (milestone / 10) * 7; // Example pricing strategy: 5 crops for 14c, 10 crops for 28c, etc.
+    addStoreItem("items-for-purchase", "", `${milestone / 10}x`, `${price}c`, () => sellCrop(milestone / 10));
 }
 
 // Function for selling crops
@@ -580,63 +631,20 @@ document.addEventListener("DOMContentLoaded", function() {
             milestoneModal.style.display = "none";
         }
     }
+
+    // Clear and initialize the upgrade section if necessary
+    clearUpgradeContainers();
+
+    if (expandedClickPurchased) {
+        initializeUpgradesContainer();
+        if (waterRefills >= 3) {
+            addWaterUpgradeButton();
+        }
+        if (plots >= 3) {
+            addExpandedClickUpgradeMk1Button();
+        }
+        if (expandedClickPurchased) {
+            addExpandedClickToggle();
+        }
+    }
 });
-
-function addCoins(amount) {
-    coins += amount;
-    totalCoinsEarned += amount;
-    checkMilestones();
-    updateCurrency();
-}
-
-function checkMilestones() {
-    const milestones = [100, 500, 1000, 5000, 10000];
-    for (const milestone of milestones) {
-        if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
-            showMilestoneModal(milestone);
-            milestonesAchieved.push(milestone);
-            saveGame();
-        }
-    }
-}
-
-function showMilestoneModal(milestone) {
-    const modal = document.getElementById("milestoneModal");
-    const modalContent = document.querySelector("#milestoneModal .modal-content p");
-    modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
-    modal.style.display = "block";
-}
-
-function checkSeedMilestones() {
-    const seedMilestones = [50, 100, 250];
-    for (const milestone of seedMilestones) {
-        if (seedsBought >= milestone && !milestonesAchieved.includes(`seeds-${milestone}`)) {
-            addSeedPurchaseOption(milestone);
-            milestonesAchieved.push(`seeds-${milestone}`);
-            saveGame();
-        }
-    }
-}
-
-function addSeedPurchaseOption(milestone) {
-    const itemsForSale = document.getElementById("items-for-sale");
-    const price = (milestone / 10) * 8; // Example pricing strategy: 5 seeds for 4c, 10 seeds for 8c, etc.
-    addStoreItem("items-for-sale", "Seed", `${milestone / 10}x`, `${price}c`, () => buySeed(milestone / 10, price));
-}
-
-function checkCropMilestones() {
-    const cropMilestones = [50, 100, 250];
-    for (const milestone of cropMilestones) {
-        if (cropsSold >= milestone && !milestonesAchieved.includes(`crops-${milestone}`)) {
-            addCropSaleOption(milestone);
-            milestonesAchieved.push(`crops-${milestone}`);
-            saveGame();
-        }
-    }
-}
-
-function addCropSaleOption(milestone) {
-    const itemsForPurchase = document.getElementById("items-for-purchase");
-    const price = (milestone / 10) * 7; // Example pricing strategy: 5 crops for 14c, 10 crops for 28c, etc.
-    addStoreItem("items-for-purchase", "", `${milestone / 10}x`, `${price}c`, () => sellCrop(milestone / 10));
-}
