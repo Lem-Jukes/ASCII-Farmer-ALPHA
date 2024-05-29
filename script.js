@@ -112,7 +112,6 @@ function checkMilestones() {
         if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
             showMilestoneModal(milestone);
             milestonesAchieved.push(milestone);
-            saveGame();
         }
     }
 }
@@ -130,7 +129,6 @@ function checkSeedMilestones() {
         if (seedsBought >= milestone && !milestonesAchieved.includes(`seeds-${milestone}`)) {
             addSeedPurchaseOption(milestone);
             milestonesAchieved.push(`seeds-${milestone}`);
-            saveGame();
         }
     }
 }
@@ -141,7 +139,6 @@ function checkCropMilestones() {
         if (cropsSold >= milestone && !milestonesAchieved.includes(`crops-${milestone}`)) {
             addCropSaleOption(milestone);
             milestonesAchieved.push(`crops-${milestone}`);
-            saveGame();
         }
     }
 }
