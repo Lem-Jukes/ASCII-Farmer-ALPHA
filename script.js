@@ -250,7 +250,7 @@ function buyPlot() {
     }
 }
 
-// Function to initialize the Upgrades section
+// Function to initialize the Upgrades section of the store
 function initializeUpgradesSection() {
     if (!document.getElementById('upgrades-section')) {
         const store = document.getElementById('store');
@@ -263,6 +263,23 @@ function initializeUpgradesSection() {
         upgradeSection.appendChild(upgradeTitle);
 
         store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
+    }
+}
+
+// Function to initialize the Upgrades container
+function initializeUpgradesContainer() {
+    if (!document.getElementById('upgrades-container')) {
+        const container = document.createElement('div');
+        container.id = 'upgrades-container';
+        container.className = 'upgrades-container';
+
+        const title = document.createElement('h2');
+        title.className = 'upgrades-title';
+        title.textContent = 'Upgrades';
+        container.appendChild(title);
+
+        const fieldContainer = document.querySelector('.field-container');
+        fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
     }
 }
 
