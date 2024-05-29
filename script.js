@@ -76,7 +76,6 @@ function loadGame() {
     }
 }
 
-
 function resetGame() {
     if (confirm("Are you sure you want to reset the game? This will clear all your progress.")) {
         try {
@@ -154,6 +153,14 @@ let expandedClickEnabled = false;
 
 // Store Functions & Initialization
 function initializeStore() {
+    // Clear previous store items
+    const itemsForSale = document.getElementById("items-for-sale");
+    const itemsForPurchase = document.getElementById("items-for-purchase");
+    const fieldExpansion = document.getElementById("field-expansion");
+    itemsForSale.innerHTML = '<div class="store-section" id="for-sale-label">For Sale:</div>';
+    itemsForPurchase.innerHTML = '<div class="store-section" id="for-purchase-label">Crop Market:</div>';
+    fieldExpansion.innerHTML = '<div class="store-section" id="field-expansion-label">Growing Plot:</div><button id="buy-plot-button" class="store-button-large" onclick="buyPlot()">Buy Plot: 10c</button>';
+
     // Initial Items for sale
     addStoreItem("items-for-sale", "Water", "10x", "1c", buyWater);
     addStoreItem("items-for-sale", "Seed", "1x", "1c", () => buySeed());
@@ -169,10 +176,25 @@ function initializeStore() {
     // Check for existing milestones
     checkSeedMilestones();
     checkCropMilestones();
-    // Check for water refill milestones
-    if (waterRefills >= 3) {addWaterUpgradeButton();}
-    // Check for plot milestones
-    if (plots >= 3) {addExpandedClickUpgradeMk1Button();}
+
+    // Clear and initialize the upgrade section if necessary
+    const upgradesSection = document.getElementById('upgrades-section');
+    if (upgradesSection) {
+        upgradesSection.remove();
+    }
+
+    if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
+        initializeUpgradesSection();
+        if (waterRefills >= 3) {
+            addWaterUpgradeButton();
+        }
+        if (plots >= 3) {
+            addExpandedClickUpgradeMk1Button();
+        }
+        if (expandedClickPurchased) {
+            addExpandedClickToggle();
+        }
+    }
 
     updateCurrency();
 }
@@ -618,7 +640,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Check and initialize the upgrade section if necessary
+    // Clear and initialize the upgrade section if necessary
+    const upgradesSection = document.getElementById('upgrades-section');
+    if (upgradesSection) {
+        upgradesSection.remove();
+    }
+
     if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
         initializeUpgradesSection();
         if (waterRefills >= 3) {
