@@ -169,6 +169,12 @@ function initializeStore() {
     // Check for existing milestones
     checkSeedMilestones();
     checkCropMilestones();
+    // Check for water refill milestones
+    if (waterRefills >= 3) {addWaterUpgradeButton();}
+    // Check for plot milestones
+    if (plots >= 3) {addExpandedClickUpgradeMk1Button();}
+
+    updateCurrency();
 }
 
 
