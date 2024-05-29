@@ -204,6 +204,7 @@ function initializeStore() {
         upgradesSection.remove();
     }
 
+    // Initialize the upgrade section if any conditions are met
     if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
         initializeUpgradesSection();
         if (waterRefills >= 3) {
@@ -219,7 +220,6 @@ function initializeStore() {
 
     updateCurrency();
 }
-
 
 function addStoreItem(sectionId, label, buttonText, price, onClickFunction) {
     const section = document.getElementById(sectionId);
