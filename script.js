@@ -617,7 +617,18 @@ document.addEventListener("DOMContentLoaded", function() {
             milestoneModal.style.display = "none";
         }
     }
+
+    // Check and initialize the upgrade section if necessary
+    if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
+        initializeUpgradesSection();
+        if (waterRefills >= 3) {
+            addWaterUpgradeButton();
+        }
+        if (plots >= 3) {
+            addExpandedClickUpgradeMk1Button();
+        }
+        if (expandedClickPurchased) {
+            addExpandedClickToggle();
+        }
+    }
 });
-
-
-
