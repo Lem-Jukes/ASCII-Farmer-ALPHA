@@ -107,6 +107,19 @@ function clearUpgradeContainers() {
     }
 }
 
+//Function to reset the game by deleting the local save file.
+function resetGame() {
+    if (confirm("Are you sure you want to reset the game? This will clear all your progress.")) {
+        try {
+            localStorage.removeItem('asciiFarmerSave');
+            console.log("Game reset successfully.");
+            location.reload(); // Reload the page to reset the game
+        } catch (error) {
+            console.error("Error resetting game:", error);
+        }
+    }
+}
+
 // Store Functions & Initialization
 function initializeStore() {
     // Clear previous store items
