@@ -68,6 +68,30 @@ function loadGame() {
             cropsSold = gameState.cropsSold;
             seedsBought = gameState.seedsBought;
             console.log("Game loaded successfully.");
+
+            // Reinitialize the game with the loaded data
+            initializeStore();
+            updateCurrency();
+            updateField();
+
+            // Clear and initialize the upgrade section if necessary
+            const upgradesSection = document.getElementById('upgrades-section');
+            if (upgradesSection) {
+                upgradesSection.remove();
+            }
+
+            if (waterRefills >= 3 || plots >= 3 || expandedClickPurchased) {
+                initializeUpgradesSection();
+                if (waterRefills >= 3) {
+                    addWaterUpgradeButton();
+                }
+                if (plots >= 3) {
+                    addExpandedClickUpgradeMk1Button();
+                }
+                if (expandedClickPurchased) {
+                    addExpandedClickToggle();
+                }
+            }
         } else {
             console.log("No saved game found.");
         }
@@ -75,6 +99,7 @@ function loadGame() {
         console.error("Error loading game:", error);
     }
 }
+
 
 function resetGame() {
     if (confirm("Are you sure you want to reset the game? This will clear all your progress.")) {
