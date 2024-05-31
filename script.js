@@ -125,7 +125,7 @@ function initializeStore() {
         }
     }
 
-    updateCurrency();
+    //updateCurrency();
 }
 
 function addStoreItem(sectionId, label, buttonText, price, onClickFunction) {
@@ -608,7 +608,6 @@ function handleAdjacentPlotClick(plot) {
    // Initialize the game
     document.addEventListener("DOMContentLoaded", function() {
         loadGame();
-
         initializeStore();
         updateCurrency();
         updateField();
@@ -659,7 +658,7 @@ function handleAdjacentPlotClick(plot) {
 
     
     // Autosave every 30 seconds
-    setInterval(saveGame, 30000);
+    // setInterval(saveGame, 30000);
 
     });
 
