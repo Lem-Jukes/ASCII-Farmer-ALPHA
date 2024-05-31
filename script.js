@@ -1,8 +1,8 @@
 // Player Currency Values
-let coins = 15;
+let coins = 1500;
 let seeds = 1;
 let water = 10;
-let crops = 0;
+let crops = 100;
 
 // Field Information
 let plots = 0;
@@ -39,8 +39,6 @@ function initializeStore() {
 
     // Initial Items for purchase
     addStoreItem("items-for-purchase", "", "1x", "2c", () => sellCrop(1));
-    addStoreItem("items-for-purchase", "", "3x", "7c", () => sellCrop(3));
-    addStoreItem("items-for-purchase", "", "5x", "15c", () => sellCrop(5));
 
     // Field expansion
     updateBuyPlotButton();
@@ -48,9 +46,6 @@ function initializeStore() {
     // Check for existing milestones
     checkSeedMilestones();
     checkCropMilestones();
-
-    // Clear and initialize the upgrade section if necessary
-    clearUpgradeContainers();
 
     if (expandedClickPurchased) {
         initializeUpgradesContainer();
@@ -161,8 +156,8 @@ function initializeUpgradesSection() {
         upgradeSection.className = 'store-section';
         upgradeSection.id = 'upgrades-section';
 
-        const upgradeTitle = document.createElement('h5');
-        upgradeTitle.textContent = 'Upgrades';
+        const upgradeTitle = document.createElement('div');
+        upgradeTitle.textContent = 'Upgrades:';
         upgradeSection.appendChild(upgradeTitle);
 
         store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
@@ -212,8 +207,8 @@ function addExpandedClickUpgradeMk1Button() {
 
 // Function to add Expanded Click toggle switch
 function addExpandedClickToggle() {
-    initializeUpgradesSection();
-    const upgradeSection = document.getElementById('upgrades-section');
+    initializeUpgradesContainer();
+    const upgradeSection = document.getElementById('upgrades-container');
 
     const upgradeItem = document.createElement('div');
     upgradeItem.className = 'upgrade-item';
@@ -284,6 +279,7 @@ function checkMilestones() {
         if (totalCoinsEarned >= milestone && !milestonesAchieved.includes(milestone)) {
             showMilestoneModal(milestone);
             milestonesAchieved.push(milestone);
+            break; // Ensures only one milestone modal is shown at a time
         }
     }
 }
@@ -293,7 +289,18 @@ function showMilestoneModal(milestone) {
     const modalContent = document.querySelector("#milestoneModal .modal-content p");
     modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
     modal.style.display = "block";
+
+    // Add an event listener to close the modal
+    modal.querySelector(".close").addEventListener("click", function() {
+        modal.style.display = "none";
+    });
 }
+
+// Example function to close modal (if you don't have it already)
+document.querySelector(".close").addEventListener("click", function() {
+    const modal = document.getElementById("milestoneModal");
+    modal.style.display = "none";
+});
 
 function checkSeedMilestones() {
     const seedMilestones = [50, 100, 250];
@@ -307,12 +314,12 @@ function checkSeedMilestones() {
 
 function addSeedPurchaseOption(milestone) {
     const itemsForSale = document.getElementById("items-for-sale");
-    const price = (milestone / 10) * 8; // Example pricing strategy: 5 seeds for 4c, 10 seeds for 8c, etc.
+    const price = (milestone / 10) * .8; // Example pricing strategy: 5 seeds for 4c, 10 seeds for 8c, etc.
     addStoreItem("items-for-sale", "Seed", `${milestone / 10}x`, `${price}c`, () => buySeed(milestone / 10, price));
 }
 
 function checkCropMilestones() {
-    const cropMilestones = [50, 100, 250];
+    const cropMilestones = [10, 25, 500, 1000];
     for (const milestone of cropMilestones) {
         if (cropsSold >= milestone && !milestonesAchieved.includes(`crops-${milestone}`)) {
             addCropSaleOption(milestone);
@@ -323,8 +330,30 @@ function checkCropMilestones() {
 
 function addCropSaleOption(milestone) {
     const itemsForPurchase = document.getElementById("items-for-purchase");
-    const price = (milestone / 10) * 7; // Example pricing strategy: 5 crops for 14c, 10 crops for 28c, etc.
-    addStoreItem("items-for-purchase", "", `${milestone / 10}x`, `${price}c`, () => sellCrop(milestone / 10));
+    let quantity, price;
+
+    switch (milestone) {
+        case 10:
+            quantity = 3;
+            price = 7;
+            break;
+        case 25:
+            quantity = 5;
+            price = 13;
+            break;
+        case 500:
+            quantity = 10;
+            price = 25;
+            break;
+        case 1000:
+            quantity = 25;
+            price = 65;
+            break;
+        default:
+            return;
+    }
+
+    addStoreItem("items-for-purchase", "", `${quantity}x`, `${price}c`, () => sellCrop(quantity));
 }
 
 // Function for selling crops
@@ -551,9 +580,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Clear and initialize the upgrade section if necessary
-    clearUpgradeContainers();
-
     if (expandedClickPurchased) {
         initializeUpgradesContainer();
         if (waterRefills >= 3) {
@@ -567,3 +593,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+    function showInstructions() {
+        const welcomeModal = document.getElementById("welcomeModal");
+        welcomeModal.style.display = "block";
+    }

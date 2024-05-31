@@ -108,36 +108,32 @@ body {
   }
   
   /* Upgrade Styles */
-  .upgrades-container {
-      font: inherit;
-      border: 2px dashed black;
-      margin: 10px auto;
-      padding: 10px;
-      width: 320px; /* Locking width to match the field */
-      text-align: center;
-  }
-  
-  .upgrades-title {
-      font: inherit;
-      text-align: center;
-      margin-bottom: 10px;
-  }
-  
-  .upgrade-item {
-      display: flex;
-      justify-content: center;
-      padding: 5px;
-      align-items: center;
-      margin-bottom: 5px;
-  }
-  
-  .upgrade-label {
-      margin-right: 10px;
-  }
-  
-  .upgrade-toggle {
-      cursor: pointer;
-  }
+ .upgrades-container {
+    font: inherit;
+    border: 2px dashed black;
+    margin: 10px auto;
+    padding: 10px;
+    width: 320px; /* Locking width to match the field */
+    text-align: center;
+}
+
+.upgrades-title {
+    font: inherit;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.upgrade-item {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.upgrade-label {
+    margin-right: 10px;
+}
   
   /* save and reset button styles */
 .save-container {
