@@ -23,6 +23,64 @@ let seedsBought = 0;
 let expandedClickPurchased = false;
 let expandedClickEnabled = false;
 
+// Add the autosave and autoload functionality
+// Function to save the game state
+function saveGame() {
+    const gameState = {
+        coins,
+        seeds,
+        water,
+        crops,
+        plots,
+        plotCost,
+        waterRefills,
+        waterUpgradeCost,
+        maxWaterCapacity,
+        totalCoinsEarned,
+        milestonesAchieved,
+        cropsSold,
+        seedsBought,
+        expandedClickPurchased,
+        expandedClickEnabled,
+        field: document.getElementById("field").innerHTML,
+    };
+    localStorage.setItem('asciiFarmerSave', JSON.stringify(gameState));
+}
+
+// Function to load the game state
+function loadGame() {
+    const savedGame = JSON.parse(localStorage.getItem('asciiFarmerSave'));
+    if (savedGame) {
+        coins = savedGame.coins;
+        seeds = savedGame.seeds;
+        water = savedGame.water;
+        crops = savedGame.crops;
+        plots = savedGame.plots;
+        plotCost = savedGame.plotCost;
+        waterRefills = savedGame.waterRefills;
+        waterUpgradeCost = savedGame.waterUpgradeCost;
+        maxWaterCapacity = savedGame.maxWaterCapacity;
+        totalCoinsEarned = savedGame.totalCoinsEarned;
+        milestonesAchieved = savedGame.milestonesAchieved;
+        cropsSold = savedGame.cropsSold;
+        seedsBought = savedGame.seedsBought;
+        expandedClickPurchased = savedGame.expandedClickPurchased;
+        expandedClickEnabled = savedGame.expandedClickEnabled;
+        document.getElementById("field").innerHTML = savedGame.field;
+        updateCurrency();
+        initializeStore();
+        initializeUpgradesContainer();
+    }
+}
+
+// Function to reset the game with confirmation
+function resetGame() {
+    if (confirm("Are you sure you want to reset the game? This will delete all your progress.")) {
+        localStorage.removeItem('asciiFarmerSave');
+        location.reload();
+    }
+}
+
 // Store Functions & Initialization
 function initializeStore() {
     // Clear previous store items
@@ -380,6 +438,7 @@ function updateCurrency() {
     document.getElementById('seeds').innerText = Math.floor(seeds);
     document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
     document.getElementById('crops').innerText = Math.floor(crops);
+    saveGame;
 }
 
 // Function to update field display
@@ -541,6 +600,8 @@ function handleAdjacentPlotClick(plot) {
 
    // Initialize the game
     document.addEventListener("DOMContentLoaded", function() {
+        loadGame();
+
         initializeStore();
         updateCurrency();
         updateField();
@@ -588,6 +649,10 @@ function handleAdjacentPlotClick(plot) {
         welcomeModal.style.display = "block";
         localStorage.setItem("hasVisitedBefore", "true");
     }
+
+    
+    // Autosave every 30 seconds
+    setInterval(saveGame, 30000);
 
     });
 
