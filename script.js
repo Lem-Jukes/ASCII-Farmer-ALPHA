@@ -1,8 +1,8 @@
 // Player Currency Values
-let coins = 1500;
+let coins = 15;
 let seeds = 1;
 let water = 10;
-let crops = 100;
+let crops = 0;
 
 // Field Information
 let plots = 0;
