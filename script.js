@@ -289,7 +289,7 @@ function showMilestoneModal(milestone) {
     const modalContent = document.querySelector("#milestoneModal .modal-content p");
     modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
     modal.style.display = "block";
-    
+
 }
 
 function checkSeedMilestones() {
@@ -582,6 +582,13 @@ function handleAdjacentPlotClick(plot) {
                 addExpandedClickToggle();
             }
         }
+
+    // Show the welcome modal on first load
+    if (!localStorage.getItem("hasVisitedBefore")) {
+        welcomeModal.style.display = "block";
+        localStorage.setItem("hasVisitedBefore", "true");
+    }
+
     });
 
     function showInstructions() {
