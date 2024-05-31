@@ -23,7 +23,6 @@ let seedsBought = 0;
 let expandedClickPurchased = false;
 let expandedClickEnabled = false;
 
-// Add the autosave and autoload functionality
 // Function to save the game state
 function saveGame() {
     const gameState = {
@@ -45,6 +44,7 @@ function saveGame() {
         field: document.getElementById("field").innerHTML,
     };
     localStorage.setItem('asciiFarmerSave', JSON.stringify(gameState));
+    console.log("Game saved:", gameState);
 }
 
 // Function to load the game state
@@ -70,6 +70,9 @@ function loadGame() {
         updateCurrency();
         initializeStore();
         initializeUpgradesContainer();
+        console.log("Game loaded:", savedGame);
+    } else {
+        console.log("No saved game found.");
     }
 }
 
@@ -77,9 +80,13 @@ function loadGame() {
 function resetGame() {
     if (confirm("Are you sure you want to reset the game? This will delete all your progress.")) {
         localStorage.removeItem('asciiFarmerSave');
+        console.log("Game reset: save data deleted.");
         location.reload();
+    } else {
+        console.log("Game reset cancelled.");
     }
 }
+
 
 // Store Functions & Initialization
 function initializeStore() {
