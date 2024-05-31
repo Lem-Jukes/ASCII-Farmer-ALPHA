@@ -289,11 +289,7 @@ function showMilestoneModal(milestone) {
     const modalContent = document.querySelector("#milestoneModal .modal-content p");
     modalContent.textContent = `Congratulations! You have earned ${milestone} coins!`;
     modal.style.display = "block";
-
-    // Add an event listener to close the modal
-    modal.querySelector(".close").addEventListener("click", function() {
-        modal.style.display = "none";
-    });
+    
 }
 
 function checkSeedMilestones() {
