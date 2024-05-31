@@ -296,12 +296,6 @@ function showMilestoneModal(milestone) {
     });
 }
 
-// Example function to close modal (if you don't have it already)
-document.querySelector(".close").addEventListener("click", function() {
-    const modal = document.getElementById("milestoneModal");
-    modal.style.display = "none";
-});
-
 function checkSeedMilestones() {
     const seedMilestones = [50, 100, 250];
     for (const milestone of seedMilestones) {
