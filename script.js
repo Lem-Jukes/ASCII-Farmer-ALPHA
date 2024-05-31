@@ -549,50 +549,50 @@ function handleAdjacentPlotClick(plot) {
     updateCurrency();
 }
 
-// Initialize the game
-document.addEventListener("DOMContentLoaded", function() {
-    initializeStore();
-    updateCurrency();
-    updateField();
+   // Initialize the game
+    document.addEventListener("DOMContentLoaded", function() {
+        initializeStore();
+        updateCurrency();
+        updateField();
 
-    // Get the modals
-    const welcomeModal = document.getElementById("welcomeModal");
-    const milestoneModal = document.getElementById("milestoneModal");
-    const closeModal = document.getElementById("closeModal");
-    const closeMilestoneModal = document.getElementById("closeMilestoneModal");
+        // Get the modals
+        const welcomeModal = document.getElementById("welcomeModal");
+        const milestoneModal = document.getElementById("milestoneModal");
+        const closeModal = document.getElementById("closeModal");
+        const closeMilestoneModal = document.getElementById("closeMilestoneModal");
 
-    // When the user clicks on <span> (x), close the modal
-    closeModal.onclick = function() {
-        welcomeModal.style.display = "none";
-    }
-
-    // When the user clicks on <span> (x), close the milestone modal
-    closeMilestoneModal.onclick = function() {
-        milestoneModal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modals, close them
-    window.onclick = function(event) {
-        if (event.target == welcomeModal) {
+        // When the user clicks on <span> (x), close the modal
+        closeModal.onclick = function() {
             welcomeModal.style.display = "none";
-        } else if (event.target == milestoneModal) {
+        }
+
+        // When the user clicks on <span> (x), close the milestone modal
+        closeMilestoneModal.onclick = function() {
             milestoneModal.style.display = "none";
         }
-    }
 
-    if (expandedClickPurchased) {
-        initializeUpgradesContainer();
-        if (waterRefills >= 3) {
-            addWaterUpgradeButton();
+        // When the user clicks anywhere outside of the modals, close them
+        window.onclick = function(event) {
+            if (event.target == welcomeModal) {
+                welcomeModal.style.display = "none";
+            } else if (event.target == milestoneModal) {
+                milestoneModal.style.display = "none";
+            }
         }
-        if (plots >= 3) {
-            addExpandedClickUpgradeMk1Button();
-        }
+
         if (expandedClickPurchased) {
-            addExpandedClickToggle();
+            initializeUpgradesContainer();
+            if (waterRefills >= 3) {
+                addWaterUpgradeButton();
+            }
+            if (plots >= 3) {
+                addExpandedClickUpgradeMk1Button();
+            }
+            if (expandedClickPurchased) {
+                addExpandedClickToggle();
+            }
         }
-    }
-});
+    });
 
     function showInstructions() {
         const welcomeModal = document.getElementById("welcomeModal");
