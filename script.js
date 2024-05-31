@@ -445,7 +445,7 @@ function updateCurrency() {
     document.getElementById('seeds').innerText = Math.floor(seeds);
     document.getElementById('water').innerText = `${Math.floor(water)}/${maxWaterCapacity}`;
     document.getElementById('crops').innerText = Math.floor(crops);
-    saveGame;
+    saveGame();
 }
 
 // Function to update field display
