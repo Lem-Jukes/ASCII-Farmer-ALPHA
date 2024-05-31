@@ -69,7 +69,6 @@ function loadGame() {
         document.getElementById("field").innerHTML = savedGame.field;
         updateCurrency();
         initializeStore();
-        initializeUpgradesContainer();
         console.log("Game loaded:", savedGame);
     } else {
         console.log("No saved game found.");
