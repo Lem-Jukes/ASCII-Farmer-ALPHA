@@ -5,29 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCII FARMER</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="jukeLTDFavicon.png" type="image/x-icon">
 </head>
 <body>
-    <header>
-        <!-- ASCII ART title here -->
-    </header>
-    
-    <main>  
-        <div class="primaryGameContainer">
-            <div class="headerStaticContainer">
-            </div>
-            <div class="dynamicContainer">
-            </div>
-            <div class="footerStaticContainer">
-            </div>
-        </div>
-        <div class="modalsContainer">
-        </div>
-    </main>
-    
-    <footer>
-        <p>&copy; 2024 Juke LTD. All rights reserved.</p>
-    </footer>
+    <div class="title">
+        <pre>
+           _____  _____ _____ _____   
+    /\    / ____|/ ____|_   _|_   _| 
+   /  \  | (___ | |      | |   | |   
+  / /\ \  \___ \| |      | |   | |    
+ / ____ \ ____) | |____ _| |_ _| |_  
+/_/    \_\_____/ \_____|_____|_____|
 
-    <script src="scripts.js"></script> 
-</body>
+ ______      _____  __  __ ______ _____  
+|  ____/\   |  __ \|  \/  |  ____|  __ \ 
+| |__ /  \  | |__) | \  / | |__  | |__) |
+|  __/ /\ \ |  _  /| |\/| |  __| |  _  / 
+| | / ____ \| | \ \| |  | | |____| | \ \ 
+|_|/_/    \_\_|  \_\_|  |_|______|_|  \_\
+        </pre>
+    </div>
+  
+    <div class="currency-bar" id="currency-bar">
+        <div class="currency-item">
+            Coins: <span id="coins">15</span>
+        </div>
+        <div class="currency-item">
+            Seeds: <span id="seeds">1</span>
+        </div>
+        <div class="currency-item">
+            Water: <span id="water">10/10</span>
+        </div>
+        <div class="currency-item">
+            Crops: <span id="crops">0</span>
+        </div>
+    </div>
+  
+    <div class="field-container">
+        <h2 class="field-title">The Field</h2>
+        <div class="field" id="field">
+            <!-- Field content is dynamically generated -->
+        </div>
+    </div>
+  
+    <div class="store-container">
+        <h2 class="store-title">The Store</h2>
+        <div class="store" id="store">
+            <div class="store-section" id="items-for-sale">
+                <div class="store-section-label" id="for-sale-label">For Sale:</div>
+                <!-- Store content is dynamically generated -->              
+            </div>
+            <div class="store-section" id="items-for-purchase">
+                <div class="store-section-label" id="for-purchase-label">Crop Market:</div>
+                <!-- Store content is dynamically generated -->
+            </div>
+            <div class="store-section" id="field-expansion">
+                <div class="store-section-label" id="field-expansion-label">Field Expansion</div>
+                <button id="buy-plot-button" class="store-button-large" onclick="buyPlot()">Buy Plot: 10c</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="save-container" id="save-container">
+        <button id="reset-button" class="state-button" onclick="resetGame()">Reset Game</button>
+    </div>
+  
+    <div class="instructions-container" id="instructions-container">
+        <button id="instructions-button" class="info-button" onclick="showInstructions()">Instructions</button>
+    </div>  
+  
+    <script src="script.js"></script>
+
+  <!-- Modals -->
+<div id="welcomeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Welcome to ASCII FARMER</h2>
+        <p>A relaxing incremental farming game! Your goal is to manage your farm by preparing soil, planting seeds, growing crops, and selling them for profit. Use your earnings to expand your field and grow even more crops!</p>
+        <h3>How to Play:</h3>
+        <ul>
+            <li><strong>Currency Bar</strong>: Track your resources at the top of the screen. You have four types of currency: Coins, Seeds, Water, and Crops.</li>
+            <li><strong>The Field</strong>: Start with an empty field. Purchase plots to expand your field and begin farming.</li>
+            <li><strong>Plot States</strong>:
+                <ul>
+                    <li><code>~</code> Untilled: Click to till the soil.</li>
+                    <li><code>=</code> Tilled: Click to plant a seed (costs 1 seed).</li>
+                    <li><code>.</code> Planted: Click to water the seed (costs 1 water).</li>
+                    <li><code>/</code>, <code>|</code>, <code>\</code>: Growing stages. Each click requires 1 water.</li>
+                    <li><code>¥</code> Grown: Click to harvest the crop and reset the plot.</li>
+                </ul>
+            </li>
+            <li><strong>The Store</strong>: Buy and sell items to manage your farm's resources. Expand your field, buy seeds and water, and sell your crops for coins.</li>
+        </ul>
+        <h3>Tips:</h3>
+        <ul>
+            <li>Plan your resources carefully. Ensure you have enough seeds and water to keep your crops growing.</li>
+            <li>Expand your field strategically to maximize your crop output and profits.</li>
+            <li>Remember that crops take multiple stages to grow, each requiring water.</li>
+        </ul>
+        <p>Enjoy your time as an ASCII Farmer and watch your farm flourish with each click!</p>
+    </div>
+</div>
+
+<div id="milestoneModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeMilestoneModal">&times;</span>
+        <h2>Milestone Reached!</h2>
+        <p></p>
+    </div>
+</div>
+
+  </body>
 </html>

@@ -1,0 +1,191 @@
+body {
+    font-family: monospace;
+  }
+  
+  .title {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.1;
+  }
+  
+  .title pre {
+      text-align: left;
+  }
+  
+  /* Currency Bar Styles */
+  .currency-bar {
+      font: inherit;
+      display: flex;
+      justify-content: space-around;
+      margin: 10px auto;
+      padding: 5px;
+      border: 2px dashed black;
+      width: 342px; /* Locking width to match the field */
+      box-sizing: border-box; /* Include padding in the width */
+  }
+  
+  .currency-item {
+      font: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 5px;
+  }
+  
+  .currency-item span {
+      display: block;
+      margin-top: 2px;
+      padding: 2px;
+      border: 2px solid black;
+  }
+  
+  /* Field Styles */
+  .field-container {
+      text-align: center;
+      margin-top: 20px;
+  }
+  
+  .field-title {
+      font: inherit;
+      margin-bottom: 10px;
+      font-family: monospace;
+  }
+  
+  .field {
+      font: inherit;
+      border: 2px dashed black;
+      margin: 10px auto;
+      padding: 10px;
+      width: 320px; /* 10 plots * 30px plot size + 9 * 2px gap between plots */
+      height: 320px; /* 10 plots * 30px plot size + 9 * 2px gap between plots */
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      grid-gap: 2px;
+  }
+  
+  .plotButton {
+      font: inherit;
+      height: 30px;
+      width: 30px;
+      margin: 2px;
+      padding: 0;
+  }
+  
+  /* Store Styles */
+  .store-title {
+      font: inherit;
+      text-align: center;
+      margin-bottom: 10px;
+  }
+  
+  .store {
+      font: inherit;
+      border: 2px dashed black;
+      margin: 10px auto;
+      padding: 10px;
+      width: 320px; /* Locking width to match the field */
+      text-align: center; /* Center buttons */
+  }
+
+  .store-section-label {
+    font: inherit;
+    text-align: center;
+    margin-bottom: 10px;
+}
+    
+  #items-for-sale .store-item {
+        display: inline-block;
+        padding: 5px;
+  }
+
+  #items-for-purchase .store-item {
+        display: inline-block;
+        padding: 5px;
+  }
+  
+  /* Upgrade Styles */
+  .upgrades-container {
+      font: inherit;
+      border: 2px dashed black;
+      margin: 10px auto;
+      padding: 10px;
+      width: 320px; /* Locking width to match the field */
+      text-align: center;
+  }
+  
+  .upgrades-title {
+      font: inherit;
+      text-align: center;
+      margin-bottom: 10px;
+  }
+  
+  .upgrade-item {
+      display: flex;
+      justify-content: center;
+      padding: 5px;
+      align-items: center;
+      margin-bottom: 5px;
+  }
+  
+  .upgrade-label {
+      margin-right: 10px;
+  }
+  
+  .upgrade-toggle {
+      cursor: pointer;
+  }
+  
+  /* save and reset button styles */
+.save-container {
+  text-align: center;
+  margin-top: 25px;
+}
+
+  /* save and reset button styles */
+.instructions-container {
+  text-align: center;
+  margin-top: 5px;
+}
+
+  /* Modal Styles */
+  .modal {
+      font: inherit;
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+      font: inherit;
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
+  
