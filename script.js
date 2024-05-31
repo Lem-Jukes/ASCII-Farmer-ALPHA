@@ -1,5 +1,5 @@
 // Player Currency Values
-let coins = 15;
+let coins = 1500;
 let seeds = 1;
 let water = 10;
 let crops = 1;
@@ -93,6 +93,7 @@ function initializeStore() {
     const itemsForSale = document.getElementById("items-for-sale");
     const itemsForPurchase = document.getElementById("items-for-purchase");
     const fieldExpansion = document.getElementById("field-expansion");
+
     itemsForSale.innerHTML = '<div class="store-section" id="for-sale-label">For Sale:</div>';
     itemsForPurchase.innerHTML = '<div class="store-section" id="for-purchase-label">Crop Market:</div>';
     fieldExpansion.innerHTML = '<div class="store-section" id="field-expansion-label">Growing Plot:</div><button id="buy-plot-button" class="store-button-large" onclick="buyPlot()">Buy Plot: 10c</button>';
@@ -214,43 +215,36 @@ function buyPlot() {
 
 // Function to initialize the Upgrades section of the store
 function initializeUpgradesSection() {
-    const existingUpgradeSection = document.getElementById('upgrades-section');
-    if (existingUpgradeSection) {
-        existingUpgradeSection.remove();
+    if (!document.getElementById('upgrades-section')) {
+        const store = document.getElementById('store');
+        const upgradeSection = document.createElement('div');
+        upgradeSection.className = 'store-section';
+        upgradeSection.id = 'upgrades-section';
+
+        const upgradeTitle = document.createElement('div');
+        upgradeTitle.textContent = 'Upgrades:';
+        upgradeSection.appendChild(upgradeTitle);
+
+        store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
     }
-
-    const store = document.getElementById('store');
-    const upgradeSection = document.createElement('div');
-    upgradeSection.className = 'store-section';
-    upgradeSection.id = 'upgrades-section';
-
-    const upgradeTitle = document.createElement('div');
-    upgradeTitle.textContent = 'Upgrades:';
-    upgradeSection.appendChild(upgradeTitle);
-
-    store.insertBefore(upgradeSection, store.firstChild); // Insert at the top
 }
 
 // Function to initialize the Upgrades container
 function initializeUpgradesContainer() {
-    const existingContainer = document.getElementById('upgrades-container');
-    if (existingContainer) {
-        existingContainer.remove();
+    if (!document.getElementById('upgrades-container')) {
+        const container = document.createElement('div');
+        container.id = 'upgrades-container';
+        container.className = 'upgrades-container';
+
+        const title = document.createElement('h2');
+        title.className = 'upgrades-title';
+        title.textContent = 'Upgrades';
+        container.appendChild(title);
+
+        const fieldContainer = document.querySelector('.field-container');
+        fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
     }
-
-    const container = document.createElement('div');
-    container.id = 'upgrades-container';
-    container.className = 'upgrades-container';
-
-    const title = document.createElement('h2');
-    title.className = 'upgrades-title';
-    title.textContent = 'Upgrades';
-    container.appendChild(title);
-
-    const fieldContainer = document.querySelector('.field-container');
-    fieldContainer.parentNode.insertBefore(container, fieldContainer.nextSibling);
 }
-
 
 // Function to add Water Upgrade button
 function addWaterUpgradeButton() {
