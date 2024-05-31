@@ -2,7 +2,7 @@
 let coins = 15;
 let seeds = 1;
 let water = 10;
-let crops = 0;
+let crops = 1;
 
 // Field Information
 let plots = 0;
