@@ -621,7 +621,9 @@ function handleAdjacentPlotClick(plot) {
 
    // Initialize the game
     document.addEventListener("DOMContentLoaded", function() {
-        loadGame();
+        if (localStorage.getItem('asciiFarmerSave')) {
+            loadGame();
+        }
         initializeStore();
         updateCurrency();
         updateField();
