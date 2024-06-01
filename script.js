@@ -73,6 +73,20 @@ function loadGame() {
     } else {
         console.log("No saved game found.");
     }
+
+    const upgradesContainer = document.getElementById("upgrades-container");
+    while (upgradesContainer.firstChild) {
+        upgradesContainer.removeChild(upgradesContainer.firstChild);
+    }
+    const storeContainer = document.getElementById("store-container");
+    while (storeContainer.firstChild) {
+        storeContainer.removeChild(storeContainer.firstChild);
+    }
+
+    // Re-add the upgrade elements based on the loaded state
+    if (expandedClickPurchased) {
+        addExpandedClickUpgrade();
+    }
 }
 
 // Function to reset the game with confirmation
