@@ -74,15 +74,6 @@ function loadGame() {
         console.log("No saved game found.");
     }
 
-    const upgradesContainer = document.getElementById("upgrades-container");
-    while (upgradesContainer.firstChild) {
-        upgradesContainer.removeChild(upgradesContainer.firstChild);
-    }
-    const storeContainer = document.getElementById("store-container");
-    while (storeContainer.firstChild) {
-        storeContainer.removeChild(storeContainer.firstChild);
-    }
-
     // Re-add the upgrade elements based on the loaded state
     if (expandedClickPurchased) {
         addExpandedClickUpgrade();
@@ -265,9 +256,12 @@ function addWaterUpgradeButton() {
     initializeUpgradesSection();
     const upgradeSection = document.getElementById('upgrades-section');
 
+    // Check if the button already exists
+    if (upgradeSection.querySelector('.water-upgrade-button')) return;
+
     const upgradeButton = document.createElement('button');
     upgradeButton.textContent = `Water Upgrade: ${waterUpgradeCost}c`;
-    upgradeButton.className = 'store-button';
+    upgradeButton.className = 'store-button water-upgrade-button';
     upgradeButton.onclick = buyWaterUpgrade;
     upgradeSection.appendChild(upgradeButton);
 }
@@ -277,9 +271,12 @@ function addExpandedClickUpgradeMk1Button() {
     initializeUpgradesSection();
     const upgradeSection = document.getElementById('upgrades-section');
 
+    // Check if the button already exists
+    if (upgradeSection.querySelector('.expanded-click-upgrade-button')) return;
+
     const upgradeButton = document.createElement('button');
     upgradeButton.textContent = `Expanded Click Mk.1: 100c`;
-    upgradeButton.className = 'store-button';
+    upgradeButton.className = 'store-button expanded-click-upgrade-button';
     upgradeButton.onclick = buyExpandedClickUpgradeMk1;
     upgradeSection.appendChild(upgradeButton);
 }
@@ -289,8 +286,11 @@ function addExpandedClickToggle() {
     initializeUpgradesContainer();
     const upgradeSection = document.getElementById('upgrades-container');
 
+    // Check if the toggle already exists
+    if (upgradeSection.querySelector('.expanded-click-toggle-item')) return;
+
     const upgradeItem = document.createElement('div');
-    upgradeItem.className = 'upgrade-item';
+    upgradeItem.className = 'upgrade-item expanded-click-toggle-item';
 
     const label = document.createElement('label');
     label.className = 'upgrade-label';
@@ -311,6 +311,7 @@ function addExpandedClickToggle() {
 
     upgradeSection.appendChild(upgradeItem);
 }
+
 
 // Functions for buying upgrades
 function buyWaterUpgrade() {
