@@ -73,11 +73,6 @@ function loadGame() {
     } else {
         console.log("No saved game found.");
     }
-
-    // Re-add the upgrade elements based on the loaded state
-    if (expandedClickPurchased) {
-        addExpandedClickUpgrade();
-    }
 }
 
 // Function to reset the game with confirmation
