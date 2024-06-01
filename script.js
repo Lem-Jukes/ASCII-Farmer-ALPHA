@@ -268,6 +268,7 @@ function addExpandedClickUpgradeMk1Button() {
 
     // Check if the button already exists
     if (upgradeSection.querySelector('.expanded-click-upgrade-button')) return;
+    if (upgradeSection.querySelector('.expanded-click-toggle-item')) return;
 
     const upgradeButton = document.createElement('button');
     upgradeButton.textContent = `Expanded Click Mk.1: 100c`;
