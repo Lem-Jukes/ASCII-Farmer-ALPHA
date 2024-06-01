@@ -1,28 +1,30 @@
-// Player Currency Values
-let coins = 15;
-let seeds = 1;
-let water = 10;
-let crops = 1;
+// Variables
+    // Player Currency Values
+    let coins = 15;
+    let seeds = 1;
+    let water = 10;
+    let crops = 1;
 
-// Field Information
-let plots = 0;
+    // Field Information
+    let plots = 0;
 
-// Store Information
-let plotCost = 10; // Initial cost for a plot
+    // Store Information
+    let plotCost = 10; // Initial cost for a plot
 
-let waterRefills = 0;
-let waterUpgradeCost = 50;
-let maxWaterCapacity = 10; // Initial max water capacity
+    let waterRefills = 0;
+    let waterUpgradeCost = 50;
+    let maxWaterCapacity = 10; // Initial max water capacity
 
-let totalCoinsEarned = 0;
-let milestonesAchieved = [];
-let cropsSold = 0;
-let seedsBought = 0;
+    let totalCoinsEarned = 0;
+    let milestonesAchieved = [];
+    let cropsSold = 0;
+    let seedsBought = 0;
 
-// Upgrade information
-let expandedClickPurchased = false;
-let expandedClickEnabled = false;
+    // Upgrade information
+    let expandedClickPurchased = false;
+    let expandedClickEnabled = false;
 
+// Saving & Loading Utilities
 // Function to save the game state
 function saveGame() {
     const gameState = {
@@ -85,7 +87,6 @@ function resetGame() {
         console.log("Game reset cancelled.");
     }
 }
-
 
 // Store Functions & Initialization
 function initializeStore() {
@@ -619,8 +620,8 @@ function handleAdjacentPlotClick(plot) {
     updateCurrency();
 }
 
-   // Initialize the game
-    document.addEventListener("DOMContentLoaded", function() {
+// Initialize the game
+document.addEventListener("DOMContentLoaded", function() {
         if (localStorage.getItem('asciiFarmerSave')) {
             loadGame();
         }
@@ -665,7 +666,6 @@ function handleAdjacentPlotClick(plot) {
                 addExpandedClickToggle();
             }
         }
-
     
     // Show the welcome modal on first load
     if (!localStorage.getItem("hasVisitedBefore")) {
@@ -673,9 +673,9 @@ function handleAdjacentPlotClick(plot) {
         localStorage.setItem("hasVisitedBefore", "true");
     }
 
-    });
+});
 
-    function showInstructions() {
+function showInstructions() {
         const welcomeModal = document.getElementById("welcomeModal");
         welcomeModal.style.display = "block";
-    }
+}
