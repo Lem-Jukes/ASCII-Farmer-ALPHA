@@ -263,6 +263,10 @@ function addWaterUpgradeButton() {
 
 // Function to add Expanded Click Upgrade button
 function addExpandedClickUpgradeMk1Button() {
+    // Check if expandedClickPurchased is true and stop running if it is
+    if (expandedClickPurchased) return;
+    initializeUpgradesSection();
+
     initializeUpgradesSection();
     const upgradeSection = document.getElementById('upgrades-section');
 
