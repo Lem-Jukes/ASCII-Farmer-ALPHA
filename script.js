@@ -667,8 +667,11 @@ function handleAdjacentPlotClick(plot) {
         }
 
     
-    // Autosave every 30 seconds
-    // setInterval(saveGame, 30000);
+    // Show the welcome modal on first load
+    if (!localStorage.getItem("hasVisitedBefore")) {
+        welcomeModal.style.display = "block";
+        localStorage.setItem("hasVisitedBefore", "true");
+    }
 
     });
 
