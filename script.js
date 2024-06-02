@@ -15,8 +15,6 @@
     let waterRefills = 0;
     let waterUpgradeCost = 50;
     let maxWaterCapacity = 10; // Initial max water capacity
-
-    let fertilizerUpgradeCost = 150;
     
 
     let totalCoinsEarned = 0;
@@ -293,9 +291,6 @@ function buyPlot() {
         // Increase the plot cost by 1.1x if the number of plots exceeds 10
         if (plots > 10) {
             plotCost *= 1.1;
-                // Check if the Fertilizer Upgrade button already exists to avoid duplicates
-            if (upgradeSection.querySelector('.fertilizer-upgrade-button')) return;
-                addFertilizerUpgradeButton;
         }
         updateField(); // Update the field display
         updateCurrency(); // Update the currency display
@@ -408,25 +403,6 @@ function addExpandedClickUpgradeMk1Button() {
     upgradeSection.appendChild(upgradeButton);
 }
 
-// Function to add Fertilizer Upgrade button
-function addFertilizerUpgradeButton() {
-    // Ensure the Upgrades section is initialized
-    initializeUpgradesSection();
-    const upgradeSection = document.getElementById('upgrades-section');
-
-    // Check if the Fertilizer Upgrade button already exists to avoid duplicates
-    if (upgradeSection.querySelector('.fertilizer-upgrade-button')) return;
-
-    // Create a button for the Fertilizer Upgrade
-    const upgradeButton = document.createElement('button');
-    upgradeButton.textContent = `Fertilizer Upgrade: ${fertilizerUpgradeCostUpgradeCost}c`; // Set the button text with the upgrade cost
-    upgradeButton.className = 'store-button fertilizer-upgrade-button'; // Set the class for styling
-    upgradeButton.onclick = buyFertilizerUpgrade; // Set the function to be called when the button is clicked
-
-    // Append the Water Upgrade button to the Upgrades section
-    upgradeSection.appendChild(upgradeButton);
-}
-
 // Function to purchase a water upgrade
 function buyWaterUpgrade() {
     // Check if the player has enough coins to buy the water upgrade
@@ -434,20 +410,6 @@ function buyWaterUpgrade() {
         coins -= waterUpgradeCost; // Deduct the cost of the water upgrade from the player's coins
         maxWaterCapacity += 10; // Increase the maximum water capacity by 10 units
         waterUpgradeCost += 25; // Increase the cost for the next water upgrade by 5 coins
-        updateCurrency(); // Update the currency display to reflect the new coin count
-        updateUpgradeButton(); // Update the upgrade button to reflect the new cost
-    } else {
-        alert("Not enough coins!"); // Alert the player if they don't have enough coins
-    }
-}
-
-// Function to purchase a Fertilizer upgrade
-function buyFertilizerUpgrade() {
-    // Check if the player has enough coins to buy the fertilizer upgrade
-    if (coins >= fertilizerUpgradeCost) {
-        coins -= fertilizerUpgradeCost; // Deduct the cost of the fertilizer upgrade from the player's coins
-        plotDisableCoefficient -= .1; // Decrease the Plot Dissable Coefficient by .1
-        fertilizerUpgradeCost += 5; // Increase the cost for the next fertilizer upgrade by 5 coins
         updateCurrency(); // Update the currency display to reflect the new coin count
         updateUpgradeButton(); // Update the upgrade button to reflect the new cost
     } else {
