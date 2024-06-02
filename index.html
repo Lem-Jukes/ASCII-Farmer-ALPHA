@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII FARMER</title>
+    <!-- Specifies the document type and version of HTML -->
+    <meta charset="UTF-8"> <!-- Defines the character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper rendering and touch zooming on mobile devices -->
+    <title>ASCII FARMER</title> <!-- Sets the title of the webpage that appears in the browser tab -->
+
+    <!-- Link to the external CSS stylesheet for styling the webpage -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Link to the favicon for the webpage, displayed in the browser tab -->
     <link rel="icon" href="jukeLTDFavicon.png" type="image/x-icon">
 </head>
 
+
 <body>
-    <div class="title">
-        <pre>
+<!-- Container for the title of the game -->
+<div class="title">
+    <!-- Preformatted text block for the ASCII art title -->
+    <pre>
            _____  _____ _____ _____   
     /\    / ____|/ ____|_   _|_   _| 
    /  \  | (___ | |      | |   | |   
@@ -24,63 +31,90 @@
 |  __/ /\ \ |  _  /| |\/| |  __| |  _  / 
 | | / ____ \| | \ \| |  | | |____| | \ \ 
 |_|/_/    \_\_|  \_\_|  |_|______|_|  \_\
-        </pre>
-    </div>
-  
-    <div class="currency-bar" id="currency-bar">
-        <div class="currency-item">
-            Coins: <span id="coins">15</span>
-        </div>
-        <div class="currency-item">
-            Seeds: <span id="seeds">1</span>
-        </div>
-        <div class="currency-item">
-            Water: <span id="water">10/10</span>
-        </div>
-        <div class="currency-item">
-            Crops: <span id="crops">0</span>
-        </div>
-    </div>
-  
-    <div class="field-container">
-        <h2 class="field-title">The Field</h2>
-        <div class="field" id="field">
-            <!-- Field content is dynamically generated -->
-        </div>
-    </div>
-  
-    <div class="store-container">
-        <h2 class="store-title">The Store</h2>
-        <div class="store" id="store">
-            <div class="store-section" id="items-for-sale">
-                <div class="store-section-label" id="for-sale-label">For Sale:</div>
-                <!-- Store content is dynamically generated -->              
-            </div>
-            <div class="store-section" id="items-for-purchase">
-                <div class="store-section-label" id="for-purchase-label">Crop Market:</div>
-                <!-- Store content is dynamically generated -->
-            </div>
-            <div class="store-section" id="field-expansion">
-                <div class="store-section-label" id="field-expansion-label">Field Expansion</div>
-                <button id="buy-plot-button" class="store-button-large" onclick="buyPlot()">Buy Plot: 10c</button>
-            </div>
-        </div>
-    </div>
+    </pre>
+</div>
 
-    <div class="save-container" id="save-container">
-        <button id="reset-button" class="state-button" onclick="resetGame()">Reset Game</button>
+<!-- Container for the currency bar, displaying various game resources -->
+<div class="currency-bar" id="currency-bar">
+    <!-- Item displaying the number of coins -->
+    <div class="currency-item">
+        Coins: <span id="coins">15</span> <!-- Placeholder for the coin count, initially set to 15 -->
     </div>
-  
-    <div class="instructions-container" id="instructions-container">
-        <button id="instructions-button" class="info-button" onclick="showInstructions()">Instructions</button>
-    </div>  
-  
-    <footer>
-        <p>by Juke LTD. Version: Alpha 0.2</p>
-        <p>&copy; 2024 ASCII Farmer. All rights reserved. </p>
-    </footer>
+    <!-- Item displaying the number of seeds -->
+    <div class="currency-item">
+        Seeds: <span id="seeds">1</span> <!-- Placeholder for the seed count, initially set to 1 -->
+    </div>
+    <!-- Item displaying the amount of water and its capacity -->
+    <div class="currency-item">
+        Water: <span id="water">10/10</span> <!-- Placeholder for the water amount, initially set to 10/10 -->
+    </div>
+    <!-- Item displaying the number of crops -->
+    <div class="currency-item">
+        Crops: <span id="crops">0</span> <!-- Placeholder for the crop count, initially set to 0 -->
+    </div>
+</div>
 
-    <script src="script.js"></script>
+  
+<!-- Container for the field section of the game -->
+<div class="field-container">
+    <!-- Title for the field section -->
+    <h2 class="field-title">The Field</h2>
+    <!-- Div element where the field plots will be dynamically generated and displayed -->
+    <div class="field" id="field">
+        <!-- Field content is dynamically generated -->
+    </div>
+</div>
+
+<!-- Container for the store section of the game -->
+<div class="store-container">
+    <!-- Title for the store section -->
+    <h2 class="store-title">The Store</h2>
+    <!-- Div element where the store content will be dynamically generated and displayed -->
+    <div class="store" id="store">
+        <!-- Section for items available for sale -->
+        <div class="store-section" id="items-for-sale">
+            <!-- Label for the items-for-sale section -->
+            <div class="store-section-label" id="for-sale-label">For Sale:</div>
+            <!-- Store content is dynamically generated -->
+        </div>
+        <!-- Section for items available for purchase (crop market) -->
+        <div class="store-section" id="items-for-purchase">
+            <!-- Label for the items-for-purchase section -->
+            <div class="store-section-label" id="for-purchase-label">Crop Market:</div>
+            <!-- Store content is dynamically generated -->
+        </div>
+        <!-- Section for field expansion options -->
+        <div class="store-section" id="field-expansion">
+            <!-- Label for the field-expansion section -->
+            <div class="store-section-label" id="field-expansion-label">Field Expansion</div>
+            <!-- Button to buy a new plot for field expansion -->
+            <button id="buy-plot-button" class="store-button-large" onclick="buyPlot()">Buy Plot: 10c</button>
+        </div>
+    </div>
+</div>
+
+<!-- Container for the save game options -->
+<div class="save-container" id="save-container">
+    <!-- Button to reset the game state -->
+    <button id="reset-button" class="state-button" onclick="resetGame()">Reset Game</button>
+</div>
+
+<!-- Container for the instructions section -->
+<div class="instructions-container" id="instructions-container">
+    <!-- Button to show the instructions modal -->
+    <button id="instructions-button" class="info-button" onclick="showInstructions()">Instructions</button>
+</div>
+
+  
+<!-- Footer section of the webpage -->
+<footer>
+    <!-- Paragraph with the company name and version information -->
+    <p>by Juke LTD. Version: Alpha 0.2</p>
+    <!-- Paragraph with the copyright information -->
+    <p>&copy; 2024 ASCII Farmer. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
 
   <!-- Modals -->
 <div id="welcomeModal" class="modal">
