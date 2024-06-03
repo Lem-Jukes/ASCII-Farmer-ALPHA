@@ -1,30 +1,31 @@
 // Variables
-    // Player Currency Values
-    let coins = 15;
-    let seeds = 1;
-    let water = 10;
-    let crops = 1;
 
-    // Field Information
-    let plots = 0;
-    let plotDisableCoefficient = 1.5;
+// Player Currency Values
+let coins = 15;          // Initial number of coins the player has
+let seeds = 1;           // Initial number of seeds the player has
+let water = 10;          // Initial amount of water the player has
+let crops = 1;           // Initial number of crops the player has
 
-    // Store Information
-    let plotCost = 10; // Initial cost for a plot
+// Field Information
+let plots = 0;           // Initial number of plots the player owns
+let plotDisableCoefficient = 1.5; // Coefficient used to calculate plot disable time
 
-    let waterRefills = 0;
-    let waterUpgradeCost = 50;
-    let maxWaterCapacity = 10; // Initial max water capacity
-    
+// Store Information
+let plotCost = 10;       // Initial cost for purchasing a new plot
+let waterRefills = 0;    // Number of times the player has refilled water
+let waterUpgradeCost = 50; // Initial cost to upgrade the water capacity
+let maxWaterCapacity = 10; // Initial maximum water capacity
 
-    let totalCoinsEarned = 0;
-    let milestonesAchieved = [];
-    let cropsSold = 0;
-    let seedsBought = 0;
+// Game Progress Information
+let totalCoinsEarned = 0; // Total number of coins the player has earned throughout the game
+let milestonesAchieved = []; // Array to store the milestones the player has achieved
+let cropsSold = 0;        // Total number of crops sold by the player
+let seedsBought = 0;      // Total number of seeds bought by the player
 
-    // Upgrade information
-    let expandedClickPurchased = false;
-    let expandedClickEnabled = false;
+// Upgrade Information
+let expandedClickPurchased = false; // Flag indicating whether the expanded click upgrade has been purchased
+let expandedClickEnabled = false;   // Flag indicating whether the expanded click upgrade is enabled
+
 
 // Saving & Loading Utilities
 // Function to save the game state
