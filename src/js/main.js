@@ -1,4 +1,5 @@
 // main.js
+import { initializeStore } from './ui/store.js';
 import { initializeField } from './ui/field.js';
 import { updateCurrencyDisplay } from './ui/currency.js';
 import { renderUpgrades } from './ui/upgrades.js';
