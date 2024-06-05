@@ -1,4 +1,6 @@
+// ui/store.js
 import { getState } from "../state.js";
+import { buySeed, buyWater } from "../handlers/storeHandlers.js";
 
 function initializeStore(){
     // Retrieve the gameState
@@ -34,18 +36,14 @@ function initializeStore(){
             const buySeedsButton = document.createElement('button');
             buySeedsButton.classList.add('store-button');
             buySeedsButton.textContent = `Buy Seeds - ${gameState.seedCost} coins`;
-            buySeedsButton.onclick = () => {
-                // Add buy seeds functionality here
-            };
+            buySeedsButton.onclick = buySeed;
             itemsForSaleSection.appendChild(buySeedsButton);
 
             // Water Refill Buy Button
             const buyWaterButton = document.createElement('button');
             buyWaterButton.classList.add('store-button');
             buyWaterButton.textContent = `Buy Water - ${gameState.waterCost} coins`;
-            buyWaterButton.onclick = () => {
-                // Add buy water functionality here
-            };
+            buyWaterButton.onclick = buyWater;
             itemsForSaleSection.appendChild(buyWaterButton);
 
         // Player Sellable Items Section

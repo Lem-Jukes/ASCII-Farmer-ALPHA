@@ -12,7 +12,8 @@ function initializeCurrencyBar(){
     const currencyItems = [
         { label: 'Coins', id: 'coins', value: gameState.coins, ariaLabel: 'Player coins' },
         { label: 'Seeds', id: 'seeds', value: gameState.seeds, ariaLabel: 'Player seeds' },
-        { label: 'Water', id: 'water', value: `${gameState.water}/${gameState.waterCapacity}`, ariaLabel: 'Current water' },
+        { label: 'Water', id: 'water', value: gameState.water, ariaLabel: 'Current water' },
+        { label: 'Water Capacity', id: 'water-capacity', value: gameState.waterCapacity, ariaLabel: 'Water capacity' },
         { label: 'Crops', id: 'crops', value: gameState.crops, ariaLabel: 'Player crops' }
     ];
 
@@ -29,11 +30,13 @@ function initializeCurrencyBar(){
 
 function updateCurrencyBar() {
     const gameState = getState();
-    document.getElementById('coins').textContent = gameState.coins
-    document.getElementById('seeds').textContent = gameState.seeds
-    document.getElementById('crops').textContent = gameState.crops
-    document.getElementById('water').textContent = gameState.water
 
+    // Update the currency values in the UI
+    document.getElementById('coins').innerText = gameState.coins;
+    document.getElementById('seeds').innerText = gameState.seeds;
+    document.getElementById('crops').innerText = gameState.crops;
+    document.getElementById('water').innerText = gameState.water;
+    document.getElementById('water-capacity').innerText = gameState.waterCapacity;
 }
 
-export { initializeCurrencyBar, updateCurrencyBar }
+export { initializeCurrencyBar, updateCurrencyBar };
