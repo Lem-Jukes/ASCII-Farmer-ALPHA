@@ -9,9 +9,12 @@ const gameState = {
     // Store Values
         // Items for Sale Values
         seedCost: 1,
+        seedQuantity: 1,
         waterCost: 1,
+        waterQuantity: 10,
         // Player Sellable Item Values
         cropPrice: 2,
+        cropQuantity: 1,
 
     // Upgrade Values
         // Water Upgrade Values:

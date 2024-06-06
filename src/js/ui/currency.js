@@ -13,7 +13,7 @@ function initializeCurrencyBar(){
         { label: 'Coins', id: 'coins', value: gameState.coins, ariaLabel: 'Player coins' },
         { label: 'Seeds', id: 'seeds', value: gameState.seeds, ariaLabel: 'Player seeds' },
         { label: 'Water', id: 'water', value: gameState.water, ariaLabel: 'Current water' },
-        { label: 'Water Capacity', id: 'water-capacity', value: gameState.waterCapacity, ariaLabel: 'Water capacity' },
+        { label: 'Water<br>Capacity', id: 'water-capacity', value: gameState.waterCapacity, ariaLabel: 'Water capacity' },
         { label: 'Crops', id: 'crops', value: gameState.crops, ariaLabel: 'Player crops' }
     ];
 

@@ -3,6 +3,7 @@
 import { getState, updateState } from "../state.js";
 import { updateCurrencyBar } from "../ui/currency.js";
 
+// Purchasing Handlers
 function buySeed() {
     const gameState = getState();
     if (gameState.coins >= gameState.seedCost) {
@@ -29,4 +30,20 @@ function buyWater() {
     }
 }
 
-export { buySeed, buyWater };
+// Sale Handlers
+
+function sellCrops() {
+    const gameState = getState();
+    if (gameState.crops > 0) {
+        updateState({
+            coins: gameState.coins + gameState.cropPrice,
+            crops: gameState.crops - 1
+        });
+        updateCurrencyBar();  // Refresh the UI to reflect updated currency values
+    } else {
+        console.log("No crops available to sell");  // Log a message if no crops are available
+    }
+}
+
+export { buySeed, buyWater, sellCrops };
+
