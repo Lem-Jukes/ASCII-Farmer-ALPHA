@@ -6,12 +6,17 @@ const gameState = {
     crops: 0,
     water: 10,
 
+    // Field Information
+     plots: 0,
+     plotDisableCoefficient: 1.5, // Coefficient used to calculate plot disable time
+
     // Store Values
         // Items for Sale Values
         seedCost: 1,
         seedQuantity: 1,
         waterCost: 1,
         waterQuantity: 10,
+        plotCost: 10,
         // Player Sellable Item Values
         cropPrice: 2,
         cropQuantity: 1,

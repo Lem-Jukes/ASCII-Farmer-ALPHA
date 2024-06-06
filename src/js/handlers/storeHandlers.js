@@ -30,6 +30,22 @@ function buyWater() {
     }
 }
 
+function buyPlot() {
+    const gameState = getState();
+    const plotCost = gameState.plotCost;
+
+    if (gameState.coins >= plotCost) {
+        updateState({
+            coins: gameState.coins - plotCost,
+            plots: gameState.plots + 1
+        });
+        updateCurrencyBar();
+    } else {
+        console.log("Not enough coins to buy a plot");
+    }
+}
+
+
 // Sale Handlers
 
 function sellCrops() {
@@ -45,5 +61,5 @@ function sellCrops() {
     }
 }
 
-export { buySeed, buyWater, sellCrops };
+export { buySeed, buyWater, buyPlot, sellCrops };
 

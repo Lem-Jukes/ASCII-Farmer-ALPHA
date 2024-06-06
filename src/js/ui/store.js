@@ -1,5 +1,6 @@
+// ./ui/store.js
 import { getState } from "../state.js";
-import { buySeed, buyWater, sellCrops } from "../handlers/storeHandlers.js";
+import { buySeed, buyWater, buyPlot, sellCrops } from "../handlers/storeHandlers.js";
 
 function initializeStoreTitle() {
     // Store Title as a Button
@@ -85,7 +86,6 @@ function initializeStore() {
     const buySeedsCost = document.createElement('span');
     buySeedsCost.classList.add('item-price');
     buySeedsCost.textContent = `${gameState.seedCost} coin(s)`;
-    buySeedsCost.onclick = buySeed;
     itemsForSaleSection.appendChild(buySeedsCost);
 
     // Water Refill Purchasing
@@ -107,7 +107,6 @@ function initializeStore() {
     const buyWaterCost = document.createElement('span');
     buyWaterCost.classList.add('item-price');
     buyWaterCost.textContent = `${gameState.waterCost} coin(s)`;
-    buyWaterCost.onclick = buyWater;
     itemsForSaleSection.appendChild(buyWaterCost);
 
     // Player Sellable Items Section
@@ -142,12 +141,46 @@ function initializeStore() {
     const sellCropsCost = document.createElement('span');
     sellCropsCost.classList.add('item-price');
     sellCropsCost.textContent = `${gameState.cropPrice} coins`;
-    sellCropsCost.onclick = sellCrops;
     playerSellableItems.appendChild(sellCropsCost);
+
+    // Field Expansion Section
+    const fieldExpansionSection = document.createElement('section');
+    fieldExpansionSection.classList.add('store-section');
+    fieldExpansionSection.id = 'field-expansion-section';
+    fieldExpansionSection.setAttribute('aria-label', 'Field Expansion Section');
+
+    // Field Expansion Section Title
+    const fieldExpansionTitle = document.createElement('h3');
+    fieldExpansionTitle.classList.add('store-section-title');
+    fieldExpansionTitle.textContent = 'Field Expansion';
+    fieldExpansionTitle.setAttribute('aria-label', 'Field Expansion Section Title');
+    fieldExpansionSection.appendChild(fieldExpansionTitle);
+
+    // Plot Purchasing
+        // Plot Item Title
+        const buyPlotTitle = document.createElement('span');
+        buyPlotTitle.classList.add('item-title');
+        buyPlotTitle.textContent = 'Buy Plot';
+        buyPlotTitle.setAttribute('aria-label', 'Buy Plot Title');
+        fieldExpansionSection.appendChild(buyPlotTitle);
+
+        // Seed Button
+        const buyPlotButton = document.createElement('button');
+        buyPlotButton.classList.add('store-button');
+        buyPlotButton.textContent = `1x`;
+        buyPlotButton.onclick = buyPlot;
+        fieldExpansionSection.appendChild(buyPlotButton);
+
+        // Plot Cost Title
+        const buyPlotCost = document.createElement('span');
+        buyPlotCost.classList.add('item-price');
+        buyPlotCost.textContent = `${gameState.plotCost} coin(s)`;
+        fieldExpansionSection.appendChild(buyPlotCost);
 
     // Append sections to store
     store.appendChild(itemsForSaleSection);
     store.appendChild(playerSellableItems);
+    store.appendChild(fieldExpansionSection);
     store.style.display = 'none'; // Initially hidden
 
     // Append store to the main div
