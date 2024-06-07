@@ -1,14 +1,14 @@
 // ./ui/field.js
 import { getState } from "../state.js";
+import { handlePlotClick } from '../handlers/plotHandlers.js'; 
 
 function initializeFieldTitle() {
     // Store Title as a Button
-    const fieldTitleButton = document.createElement('button');
+    const fieldTitleButton = document.createElement('section');
     fieldTitleButton.classList.add('section-title');
-    fieldTitleButton.id = 'field-title-button';
-    fieldTitleButton.setAttribute('aria-label', 'Field Title Button');
+    fieldTitleButton.id = 'field-section-title';
+    fieldTitleButton.setAttribute('aria-label', 'Field Section Title');
     fieldTitleButton.textContent = 'The Field';
-    fieldTitleButton.onclick = toggleFieldVisibility;
 
     const mainDiv = document.querySelector('main');
     if (mainDiv) {
@@ -18,45 +18,33 @@ function initializeFieldTitle() {
     }
 }
 
-function toggleFieldVisibility() {
-    const store = document.getElementById('field');
-    if (store) {
-        store.classList.toggle('open');
-        store.classList.contains('open') ? fadeIn(store) : fadeOut(store);
+function initializeField(){
+    // Store Section
+    const field = document.createElement('section');
+    field.classList.add('field');
+    field.id = 'field';
+    field.setAttribute('aria-label', 'The Field');
+
+    // Append the field section to the main element
+    const mainDiv = document.querySelector('main');
+    if (mainDiv) {
+        mainDiv.appendChild(field);
+    } else {
+        console.error('Main div not found');
     }
 }
 
-function fadeIn(element) {
-    element.style.display = 'block';
-    element.style.opacity = 0;
-    element.style.transition = 'opacity 0.5s';
-    setTimeout(() => {
-        element.style.opacity = 1;
-    }, 10);
-}
-
-function fadeOut(element) {
-    element.style.opacity = 0;
-    element.style.transition = 'opacity 0.5s';
-    setTimeout(() => {
-        element.style.display = 'none';
-    }, 500);
-}
-
-function initializeField(){
-    // Retrieve the gameState
-    const gameState = getState();
-
-    // Store Section
-    const store = document.createElement('section');
-    store.classList.add('field');
-    store.id = 'field';
-    store.setAttribute('aria-label', 'The Field');
-}
-
-function updateField(){
+function updateField() {
+    const gameState = getState(); // Call getState to retrieve the current game state
+    
     const fieldElement = document.getElementById('field'); // Get the field element
+    if (!fieldElement) {
+        console.error('Field element not found');
+        return;
+    }
     fieldElement.innerHTML = ''; // Clear the field element's content
+
+    const plots = gameState.plots; // Retrieve the plots variable from the game state
 
     // Create and append plot buttons for the number of plots owned by the player
     for (let i = 0; i < plots; i++) {
@@ -67,6 +55,5 @@ function updateField(){
         fieldElement.appendChild(plot); // Append the plot button to the field element
     }
 }
-
 
 export { initializeFieldTitle, initializeField, updateField }

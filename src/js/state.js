@@ -1,7 +1,7 @@
 //state.js
 const gameState = {
     // Player Currency Values
-    coins: 15,
+    coins: 1500,
     seeds: 1,
     crops: 0,
     water: 10,
@@ -34,4 +34,9 @@ function updateState(updates) {
     Object.assign(gameState, updates);
 }
 
-export { getState, updateState };
+function logGameState() {
+    const gameState = getState();
+    console.log('Game State:', gameState);
+}
+
+export { getState, updateState, logGameState };

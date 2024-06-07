@@ -1,5 +1,5 @@
 // ui/currency.js
-import { getState } from "../state.js";
+import { getState, logGameState } from "../state.js";
 
 function initializeCurrencyBar(){ 
     // Create the currency bar container
@@ -37,6 +37,20 @@ function updateCurrencyBar() {
     document.getElementById('crops').innerText = gameState.crops;
     document.getElementById('water').innerText = gameState.water;
     document.getElementById('water-capacity').innerText = gameState.waterCapacity;
+    updatePlotCostDisplay();
+    logGameState();
+}
+
+
+function updatePlotCostDisplay() {
+    const gameState = getState();
+    const buyPlotCost = document.getElementById('plot-cost');
+    if (buyPlotCost) {
+        buyPlotCost.textContent = `${gameState.plotCost} coin(s)`;
+        console.log(`Updated plot cost display to ${gameState.plotCost} coin(s)`); // Debug statement
+    } else {
+        console.log('Error: buyPlotCost element not found'); // Debug statement
+    }
 }
 
 export { initializeCurrencyBar, updateCurrencyBar };
