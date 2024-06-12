@@ -12,8 +12,8 @@ const gameState = {
 
     // Game Progress Information
     totalCoinsEarned: 0,      // Total number of coins the player has earned throughout the game
-    cropsSold: 49,             // Total number of crops sold by the player
-    seedsBought: 49,           // Total number of seeds bought by the player
+    cropsSold: 0,             // Total number of crops sold by the player
+    seedsBought: 0,           // Total number of seeds bought by the player
     waterRefillsPurchased: 0, // Total number of times the player has clicked the water refil button
 
     // Upgrade Values
