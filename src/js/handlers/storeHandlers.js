@@ -3,24 +3,55 @@
 import { getState, updateState } from "../state.js";
 import { updateCurrencyBar } from "../ui/currency.js";
 import { updateField } from "../ui/field.js";
+import { getStoreValues } from "../ui/store.js";
+import { trackMilestones, getMilestoneValues, updateSeedsBought, updateCropsSold, updateCoinsEarned } from "./milestoneHandlers.js";
 
 // Purchasing Handlers
 function buySeed() {
     const gameState = getState();
-    if (gameState.coins >= gameState.seedCost) {
+    const storeValues = getStoreValues();
+    if (gameState.coins >= storeValues.seedCost) {
         updateState({
-            coins: gameState.coins - gameState.seedCost,
-            seeds: gameState.seeds + 1
+            coins: gameState.coins - storeValues.seedCost,
+            seeds: gameState.seeds + 1,
         });
+        updateSeedsBought(1);
         updateCurrencyBar();
     } else {
         console.log("Not enough coins to buy seeds");
     }
 }
 
+function buyBulkSeeds(event) {
+    const button = event.target;
+    const buySeedsSection = document.getElementById('buySeedsSection');
+    
+    // Extract the bulk quantity and cost from the button's text content
+    const bulkQuantityText = button.textContent; // e.g., "50x"
+    const bulkCostElements = buySeedsSection.querySelectorAll('.item-price');
+    const bulkCostText = bulkCostElements[bulkCostElements.length - 1].textContent; // Select the last element
+
+    const bulkQuantity = parseInt(bulkQuantityText.replace('x', ''));
+    const bulkCost = parseInt(bulkCostText.replace(' coins', ''));
+
+    const gameState = getState();
+
+    if (gameState.coins >= bulkCost) {
+        updateState({
+            coins: gameState.coins - bulkCost,
+            seeds: gameState.seeds + bulkQuantity,
+        });
+        updateSeedsBought(bulkQuantity); // Update seedsBought and check milestones
+        updateCurrencyBar();
+    } else {
+        console.log("Not enough coins to buy bulk seeds");
+    }
+}
+
 function buyWater() {
     const gameState = getState();
-    
+    const storeValues = getStoreValues();
+    const milestones = getMilestoneValues();
     // Check if the player's water is already at capacity
     if (gameState.water >= gameState.waterCapacity) {
         console.log("Water is already at capacity. You cannot purchase more water.");
@@ -28,15 +59,17 @@ function buyWater() {
     }
 
     // Check if the player has enough coins to buy water
-    if (gameState.coins >= gameState.waterCost) {
+    if (gameState.coins >= storeValues.waterCost) {
         // Calculate the new water level, ensuring it does not exceed the water capacity
         const newWaterLevel = Math.min(gameState.water + 10, gameState.waterCapacity);
         
         updateState({
-            coins: gameState.coins - gameState.waterCost,
-            water: newWaterLevel
+            coins: gameState.coins - storeValues.waterCost,
+            water: newWaterLevel,
+            waterRefillsBought: gameState.waterRefillsBought + 1
+
         });
-        
+        trackMilestones(gameState, milestones);
         updateCurrencyBar();
     } else {
         console.log("Not enough coins to buy water");
@@ -45,18 +78,19 @@ function buyWater() {
 
 function buyPlot() {
     const gameState = getState();
-    let plotCost = gameState.plotCost;
+    const storeValues = getStoreValues();
+    let plotCost = storeValues.plotCost;
     const plots = gameState.plots;
 
     if (plots >= 10) {
-        plotCost = Math.ceil(plotCost * 1.1);
+        plotCost = Math.ceil(plotCost * 1.05);
     }
 
     if (gameState.coins >= plotCost && plots < 100) {
         updateState({
             coins: gameState.coins - plotCost,
             plots: gameState.plots + 1,
-            plotCost: plotCost // Update plotCost in the state
+            plotCost: storeValues.plotCost // Update plotCost in the state
         });
         updateCurrencyBar();
         updateField();
@@ -71,16 +105,45 @@ function buyPlot() {
 
 function sellCrops() {
     const gameState = getState();
+    const storeValues = getStoreValues();
     if (gameState.crops > 0) {
         updateState({
-            coins: gameState.coins + gameState.cropPrice,
-            crops: gameState.crops - 1
+            coins: gameState.coins + storeValues.cropPrice,
+            crops: gameState.crops - 1,
         });
+        updateCoinsEarned(1);
+        updateCropsSold(1);
         updateCurrencyBar();  // Refresh the UI to reflect updated currency values
     } else {
         console.log("No crops available to sell");  // Log a message if no crops are available
     }
 }
 
-export { buySeed, buyWater, buyPlot, sellCrops };
+function sellBulkCrops(event) {
+    const button = event.target;
+    const sellCropsSection = document.getElementById('sellCropsSection');
+    
+    // Extract the bulk quantity and cost from the button's text content
+    const bulkQuantityText = button.textContent; // e.g., "50x"
+    const bulkCostElements = sellCropsSection.querySelectorAll('.item-price');
+    const bulkCostText = bulkCostElements[bulkCostElements.length - 1].textContent; // Select the last element
 
+    const bulkQuantity = parseInt(bulkQuantityText.replace('x', ''));
+    const bulkPrice = parseInt(bulkCostText.replace(' coins', ''));
+
+    const gameState = getState();
+
+    if (gameState.crops >= bulkQuantity) {
+        updateState({
+            coins: gameState.coins + bulkPrice,
+            crops: gameState.crops - bulkQuantity,
+        });
+        updateCoinsEarned(bulkPrice)
+        updateCropsSold(bulkQuantity);
+        updateCurrencyBar();
+    } else {
+        console.log("Not enough crops to sell");
+    }
+}
+
+export { buySeed, buyWater, buyPlot, sellCrops, buyBulkSeeds, sellBulkCrops };

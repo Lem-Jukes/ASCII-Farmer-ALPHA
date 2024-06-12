@@ -54,9 +54,17 @@ function handlePlotClick(plot) {
             plot.disabled = true; // Disable the button temporarily
 
             // Calculate the disabled time based on the number of plots
+            const baseTime = 3000;
+            const initialDisableCoefficient = 1
             const numPlots = document.getElementById('field').childElementCount;
-            const disabledTime = 3000 * Math.pow(gameState.plotDisableCoefficient, Math.floor(numPlots / 3));
-
+            
+            const coefficientIncrease = Math.floor(numPlots / 5) * 0.5;
+            console.log(coefficientIncrease);
+            const plotDisableCoefficient = initialDisableCoefficient + coefficientIncrease;
+            
+            const disabledTime = baseTime * plotDisableCoefficient;
+            console.log(disabledTime);
+            
             // Re-enable the button after the calculated disabled time
             setTimeout(() => {
                 plot.disabled = false;

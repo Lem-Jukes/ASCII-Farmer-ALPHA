@@ -1,29 +1,27 @@
 //state.js
 const gameState = {
     // Player Currency Values
-    coins: 1500,
+    coins: 15,
     seeds: 1,
     crops: 0,
     water: 10,
 
     // Field Information
-     plots: 0,
-     plotDisableCoefficient: 1.5, // Coefficient used to calculate plot disable time
+    plots: 0,
+    plotDisableCoefficient: 1.25, // Coefficient used to calculate plot disable time
 
-    // Store Values
-        // Items for Sale Values
-        seedCost: 1,
-        seedQuantity: 1,
-        waterCost: 1,
-        waterQuantity: 10,
-        plotCost: 10,
-        // Player Sellable Item Values
-        cropPrice: 2,
-        cropQuantity: 1,
+    // Game Progress Information
+    totalCoinsEarned: 0,      // Total number of coins the player has earned throughout the game
+    cropsSold: 49,             // Total number of crops sold by the player
+    seedsBought: 49,           // Total number of seeds bought by the player
+    waterRefillsPurchased: 0, // Total number of times the player has clicked the water refil button
 
     // Upgrade Values
-        // Water Upgrade Values:
-        waterCapacity: 10,
+    // Water Upgrade Values:
+    waterCapacity: 10,
+
+    milestonesAchieved: [],   // Array to store the milestones the player has achieved
+
 }
 
 function getState() {
@@ -39,4 +37,4 @@ function logGameState() {
     console.log('Game State:', gameState);
 }
 
-export { getState, updateState, logGameState };
+export { getState, updateState, logGameState, gameState };
