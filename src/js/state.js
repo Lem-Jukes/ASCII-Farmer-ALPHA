@@ -7,7 +7,7 @@ const gameState = {
     water: 9,
 
     // Field Information
-    plots: 1,
+    plots: 0,
     plotDisableCoefficient: 1.25, // Coefficient used to calculate plot disable time
 
     // Game Progress Information
