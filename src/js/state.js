@@ -4,7 +4,7 @@ const gameState = {
     coins: 15,
     seeds: 1,
     crops: 0,
-    water: 9,
+    water: 10,
 
     // Field Information
     plots: 0,
