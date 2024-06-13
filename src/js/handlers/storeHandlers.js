@@ -4,7 +4,13 @@ import { getState, updateState } from "../state.js";
 import { updateCurrencyBar } from "../ui/currency.js";
 import { updateField } from "../ui/field.js";
 import { getStoreValues } from "../ui/store.js";
-import { trackMilestones, getMilestoneValues, updateSeedsBought, updateCropsSold, updateCoinsEarned } from "./milestoneHandlers.js";
+import { trackMilestones, 
+         getMilestoneValues, 
+         updateSeedsBought, 
+         updateCropsSold, 
+         updateCoinsEarned,
+         updateWaterRefills,
+        } from "./milestoneHandlers.js";
 
 // Purchasing Handlers
 function buySeed() {
@@ -66,9 +72,8 @@ function buyWater() {
         updateState({
             coins: gameState.coins - storeValues.waterCost,
             water: newWaterLevel,
-            waterRefillsBought: gameState.waterRefillsBought + 1
-
         });
+        updateWaterRefills(1);
         trackMilestones(gameState, milestones);
         updateCurrencyBar();
     } else {

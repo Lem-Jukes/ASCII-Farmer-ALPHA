@@ -4,17 +4,17 @@ const gameState = {
     coins: 15,
     seeds: 1,
     crops: 0,
-    water: 10,
+    water: 9,
 
     // Field Information
-    plots: 0,
+    plots: 1,
     plotDisableCoefficient: 1.25, // Coefficient used to calculate plot disable time
 
     // Game Progress Information
     totalCoinsEarned: 0,      // Total number of coins the player has earned throughout the game
     cropsSold: 0,             // Total number of crops sold by the player
     seedsBought: 0,           // Total number of seeds bought by the player
-    waterRefillsPurchased: 0, // Total number of times the player has clicked the water refil button
+    waterRefillsPurchased: 9, // Total number of times the player has clicked the water refil button
 
     // Upgrade Values
     // Water Upgrade Values:

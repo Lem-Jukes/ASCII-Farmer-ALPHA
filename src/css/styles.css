@@ -47,6 +47,13 @@ main {
     border: 2px solid black;
 }
 
+/* Container Title Styles */
+.container-title {
+    font-family: inherit;
+    font-size: 1.5em;
+    margin: 2px;
+}
+
 /* Section Title Styles */
 .section-title {
     font-family: inherit;
@@ -122,4 +129,19 @@ main {
 
 .plotButton {
     font-family: inherit;
+}
+
+/* Upgrades Styles */
+.upgrades {
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 322.5px; /* Set a max-width for the container */
+    height: 343.5px;
+    border: 2px dashed black;
+    padding: 10px;
+    margin: 10px;
+    box-sizing: border-box;
 }

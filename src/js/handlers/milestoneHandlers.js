@@ -2,12 +2,13 @@
 
 import { getState, updateState } from "../state.js"
 import { getStoreValues, addBulkSeedButton, addBulkCropSaleButton } from "../ui/store.js";
+import { initializeUpgradesTitle, initializeUpgrades } from "../ui/upgrades.js";
 
 const milestoneValues =  {
     totalCoinsEarned: [100, 500, 1000, 5000],
     cropsSold: [50, 100, 500],
     seedsBought: [50, 100, 250, 500, 1000, 2500],
-    waterRefillsPurchased: [10, 100, 250, 1000],
+    waterRefillsPurchased: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 1000],
 }
 
 function getMilestoneValues() {
@@ -22,12 +23,20 @@ function trackMilestones() {
             if (gameState[key] >= milestone && !gameState.milestonesAchieved.includes(`${key}-${milestone}`)) {
                 gameState.milestonesAchieved.push(`${key}-${milestone}`);
                 console.log(`Milestone achieved: ${key} - ${milestone}`);
-                // Here you can add any logic needed when a milestone is achieved,
-                // like unlocking new features or notifying the player.
+
+                // Milestone Upgrade Unlock Logic
+
+                if (key === 'waterRefillsPurchased' && milestone === milestoneValues.waterRefillsPurchased[0]) {
+                    //console.log('First water refill milestone achieved!');
+                    initializeUpgradesTitle();
+                    initializeUpgrades();
+                }
             }
         }
     }
 }
+
+// Milestone Bulk Unlock Logic
 
 function updateSeedsBought(amount) {
     const gameState = getState();
@@ -91,5 +100,22 @@ function updateCoinsEarned(amount) {
     //checkTotalCoinsEarnedMilesontes Goes here
 }
 
-export { trackMilestones, getMilestoneValues, updateSeedsBought, checkSeedsBoughtMilestones, updateCropsSold, checkCropsSoldMilestones, updateCoinsEarned };
+//function to be built: checkTotalCoinsEarnedMilestones
 
+function updateWaterRefills(amount) {
+    const gameState = getState();
+    const newWaterRefils = gameState.waterRefillsPurchased + amount;
+    updateState({ waterRefillsPurchased: newWaterRefils });
+    //checkWaterRefills Goes here
+}
+
+export { trackMilestones, 
+         getMilestoneValues, 
+         updateSeedsBought, 
+         checkSeedsBoughtMilestones, 
+         updateCropsSold, 
+         checkCropsSoldMilestones, 
+         updateCoinsEarned,
+         updateWaterRefills,
+
+        }

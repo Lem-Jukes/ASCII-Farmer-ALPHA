@@ -27,7 +27,7 @@ import { buySeed, buyWater, buyPlot, sellCrops, buyBulkSeeds, sellBulkCrops } fr
 function initializeStoreTitle() {
     // Store Title as a Button
     const storeTitle = document.createElement('section');
-    storeTitle.classList.add('section-title');
+    storeTitle.classList.add('container-title');
     storeTitle.id = 'store-title-button';
     storeTitle.setAttribute('aria-label', 'Store Title Button');
     storeTitle.textContent = 'The Store';

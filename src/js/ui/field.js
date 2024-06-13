@@ -5,7 +5,7 @@ import { handlePlotClick } from '../handlers/plotHandlers.js';
 function initializeFieldTitle() {
     // Store Title as a Button
     const fieldTitleButton = document.createElement('section');
-    fieldTitleButton.classList.add('section-title');
+    fieldTitleButton.classList.add('container-title');
     fieldTitleButton.id = 'field-section-title';
     fieldTitleButton.setAttribute('aria-label', 'Field Section Title');
     fieldTitleButton.textContent = 'The Field';
