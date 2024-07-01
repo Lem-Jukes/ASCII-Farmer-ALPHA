@@ -1,19 +1,19 @@
 //state.js
 const gameState = {
     // Player Currency Values
-    coins: 15,
-    seeds: 1,
-    crops: 0,
-    water: 10,
+    coins: 15000,
+    seeds: 10,
+    crops: 10,
+    water: 9,
 
     // Field Information
-    plots: 0,
+    plots: 99,
     plotDisableCoefficient: 1.25, // Coefficient used to calculate plot disable time
 
     // Game Progress Information
-    totalCoinsEarned: 0,      // Total number of coins the player has earned throughout the game
-    cropsSold: 0,             // Total number of crops sold by the player
-    seedsBought: 0,           // Total number of seeds bought by the player
+    totalCoinsEarned: 99,      // Total number of coins the player has earned throughout the game
+    cropsSold: 49,             // Total number of crops sold by the player
+    seedsBought: 49,           // Total number of seeds bought by the player
     waterRefillsPurchased: 9, // Total number of times the player has clicked the water refil button
 
     // Upgrade Values

@@ -3,14 +3,16 @@
 import { getState, updateState } from "../state.js";
 import { updateCurrencyBar } from "../ui/currency.js";
 import { updateField } from "../ui/field.js";
-import { getStoreValues } from "../ui/store.js";
+import { getStoreValues, updateStoreValues } from "../ui/store.js";
+import { updateWaterRefillsPurchased } from "./upgradeHandlers.js";
 import { trackMilestones, 
          getMilestoneValues, 
          updateSeedsBought, 
          updateCropsSold, 
          updateCoinsEarned,
-         updateWaterRefills,
+
         } from "./milestoneHandlers.js";
+
 
 // Purchasing Handlers
 function buySeed() {
@@ -58,6 +60,7 @@ function buyWater() {
     const gameState = getState();
     const storeValues = getStoreValues();
     const milestones = getMilestoneValues();
+
     // Check if the player's water is already at capacity
     if (gameState.water >= gameState.waterCapacity) {
         console.log("Water is already at capacity. You cannot purchase more water.");
@@ -73,7 +76,11 @@ function buyWater() {
             coins: gameState.coins - storeValues.waterCost,
             water: newWaterLevel,
         });
-        updateWaterRefills(1);
+
+        // Increment waterRefillsPurchased and check for milestone
+        updateWaterRefillsPurchased();
+
+        // Track milestones and update the UI
         trackMilestones(gameState, milestones);
         updateCurrencyBar();
     } else {
@@ -87,7 +94,7 @@ function buyPlot() {
     let plotCost = storeValues.plotCost;
     const plots = gameState.plots;
 
-    if (plots >= 10) {
+    if (plots >= 5) {
         plotCost = Math.ceil(plotCost * 1.05);
     }
 
@@ -95,8 +102,12 @@ function buyPlot() {
         updateState({
             coins: gameState.coins - plotCost,
             plots: gameState.plots + 1,
-            plotCost: storeValues.plotCost // Update plotCost in the state
         });
+        storeValues.plotCost = plotCost;
+        updateStoreValues({
+            plotCost: storeValues.plotCost 
+        });
+        console.log("Updated plotCost:", storeValues.plotCost);
         updateCurrencyBar();
         updateField();
     } else if (gameState.coins < plotCost) {

@@ -2,7 +2,7 @@
 
 import { getState, updateState } from "../state.js"
 import { getStoreValues, addBulkSeedButton, addBulkCropSaleButton } from "../ui/store.js";
-import { initializeUpgradesTitle, initializeUpgrades } from "../ui/upgrades.js";
+import { initializeUpgradesTitle, initializeUpgrades, initializeWaterUpgradesSection, initializeClickUpgradesSection } from "../ui/upgrades.js";
 
 const milestoneValues =  {
     totalCoinsEarned: [100, 500, 1000, 5000],
@@ -26,12 +26,42 @@ function trackMilestones() {
 
                 // Milestone Upgrade Unlock Logic
 
+                // Water Upgrade Unlock
                 if (key === 'waterRefillsPurchased' && milestone === milestoneValues.waterRefillsPurchased[0]) {
-                    //console.log('First water refill milestone achieved!');
-                    initializeUpgradesTitle();
-                    initializeUpgrades();
+                    const upgradesTitle = document.getElementById('upgrades-container-title');
+                    const upgradesContainer = document.getElementById('upgrades-container');
+
+                    if (!upgradesTitle) {
+                        initializeUpgradesTitle();
+                    }
+
+                    if (!upgradesContainer) {
+                        initializeUpgrades();
+                    }
+
+                    initializeWaterUpgradesSection();
                 }
+
+                // Expanded Click Unlock
+                if (key === 'totalCoinsEarned' && milestone === milestoneValues.totalCoinsEarned[0]) {
+                    const upgradesTitle = document.getElementById('upgrades-container-title');
+                    const upgradesContainer = document.getElementById('upgrades-container');
+
+                    if (!upgradesTitle) {
+                        initializeUpgradesTitle();
+                    }
+
+                    if (!upgradesContainer) {
+                        initializeUpgrades();
+                    }
+
+                    initializeClickUpgradesSection();
+                }
+
+                checkWaterRefillsMilestonesAndEnableButton();
+
             }
+            
         }
     }
 }
@@ -102,11 +132,28 @@ function updateCoinsEarned(amount) {
 
 //function to be built: checkTotalCoinsEarnedMilestones
 
-function updateWaterRefills(amount) {
+
+function checkWaterRefillsMilestonesAndEnableButton() {
     const gameState = getState();
-    const newWaterRefils = gameState.waterRefillsPurchased + amount;
-    updateState({ waterRefillsPurchased: newWaterRefils });
-    //checkWaterRefills Goes here
+    const milestoneValues = getMilestoneValues(); // Assume this function returns the milestone values
+
+    //console.log('GameState waterRefillsPurchased:', gameState.waterRefillsPurchased);
+    //console.log('Milestone values:', milestoneValues.WaterRefillsPurchased);
+
+    milestoneValues.waterRefillsPurchased.forEach(milestone => {
+        //console.log('Checking milestone:', milestone);
+        if (gameState.waterRefillsPurchased === milestone) {
+            const waterUpgradeCapButton = document.getElementById('water-upgrade-cap-button');
+            //console.log('Milestone matched:', milestone);
+            if (waterUpgradeCapButton.disabled) {
+                waterUpgradeCapButton.disabled = false;
+                //console.log('Water Upgrade Cap Button enabled due to milestone achieved.');
+            } else {
+                //console.log('Water Upgrade Cap Button is already enabled.');
+            }
+        }
+        
+    });
 }
 
 export { trackMilestones, 
@@ -116,6 +163,5 @@ export { trackMilestones,
          updateCropsSold, 
          checkCropsSoldMilestones, 
          updateCoinsEarned,
-         updateWaterRefills,
 
         }

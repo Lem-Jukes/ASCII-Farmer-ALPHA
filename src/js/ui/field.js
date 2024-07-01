@@ -21,7 +21,7 @@ function initializeFieldTitle() {
 function initializeField(){
     // Store Section
     const field = document.createElement('section');
-    field.classList.add('field');
+    field.classList.add('field-container');
     field.id = 'field';
     field.setAttribute('aria-label', 'The Field');
 
